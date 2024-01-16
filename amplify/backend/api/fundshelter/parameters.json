@@ -1,0 +1,5 @@
+{
+  "AppSyncApiName": "fundshelter",
+  "DynamoDBBillingMode": "PAY_PER_REQUEST",
+  "DynamoDBEnableServerSideEncryption": false
+}
