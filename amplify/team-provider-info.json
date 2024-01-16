@@ -1,0 +1,20 @@
+{
+  "staging": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-amplify2aae3c7129b24-staging-74646-authRole",
+      "UnauthRoleArn": "arn:aws:iam::058264066973:role/amplify-amplify2aae3c7129b24-staging-74646-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::058264066973:role/amplify-amplify2aae3c7129b24-staging-74646-authRole",
+      "Region": "ap-southeast-2",
+      "DeploymentBucketName": "amplify-amplify2aae3c7129b24-staging-74646-deployment",
+      "UnauthRoleName": "amplify-amplify2aae3c7129b24-staging-74646-unauthRole",
+      "StackName": "amplify-amplify2aae3c7129b24-staging-74646",
+      "StackId": "arn:aws:cloudformation:ap-southeast-2:058264066973:stack/amplify-amplify2aae3c7129b24-staging-74646/664090e0-b443-11ee-8284-02aecb1b04b7",
+      "AmplifyAppId": "d1z6ebx34rsesg"
+    },
+    "categories": {
+      "auth": {
+        "fundshelter580deae1": {}
+      }
+    }
+  }
+}
