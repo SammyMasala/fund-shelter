@@ -23,21 +23,21 @@ export default function ExpenseCreateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    name: "",
+    value: "",
     description: "",
   };
-  const [name, setName] = React.useState(initialValues.name);
+  const [value, setValue] = React.useState(initialValues.value);
   const [description, setDescription] = React.useState(
     initialValues.description
   );
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    setName(initialValues.name);
+    setValue(initialValues.value);
     setDescription(initialValues.description);
     setErrors({});
   };
   const validations = {
-    name: [{ type: "Required" }],
+    value: [{ type: "Required" }],
     description: [],
   };
   const runValidationTasks = async (
@@ -66,7 +66,7 @@ export default function ExpenseCreateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          name,
+          value,
           description,
         };
         const validationResponses = await Promise.all(
@@ -122,33 +122,33 @@ export default function ExpenseCreateForm(props) {
       {...rest}
     >
       <TextField
-        label="Name"
+        label="Value"
         isRequired={true}
         isReadOnly={false}
         type="number"
         step="any"
-        value={name}
+        value={value}
         onChange={(e) => {
           let value = isNaN(parseFloat(e.target.value))
             ? e.target.value
             : parseFloat(e.target.value);
           if (onChange) {
             const modelFields = {
-              name: value,
+              value: value,
               description,
             };
             const result = onChange(modelFields);
-            value = result?.name ?? value;
+            value = result?.value ?? value;
           }
-          if (errors.name?.hasError) {
-            runValidationTasks("name", value);
+          if (errors.value?.hasError) {
+            runValidationTasks("value", value);
           }
-          setName(value);
+          setValue(value);
         }}
-        onBlur={() => runValidationTasks("name", name)}
-        errorMessage={errors.name?.errorMessage}
-        hasError={errors.name?.hasError}
-        {...getOverrideProps(overrides, "name")}
+        onBlur={() => runValidationTasks("value", value)}
+        errorMessage={errors.value?.errorMessage}
+        hasError={errors.value?.hasError}
+        {...getOverrideProps(overrides, "value")}
       ></TextField>
       <TextField
         label="Description"
@@ -159,7 +159,7 @@ export default function ExpenseCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              name,
+              value,
               description: value,
             };
             const result = onChange(modelFields);

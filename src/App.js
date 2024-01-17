@@ -36,7 +36,7 @@ const App = ({ signOut }) => {
     event.preventDefault();
     const form = new FormData(event.target);
     const data = {
-      name: form.get("name"),
+      name: form.get("value"),
       description: form.get("description"),
     };
     await client.graphql({
@@ -62,7 +62,7 @@ const App = ({ signOut }) => {
       <View as="form" margin="3rem 0" onSubmit={createExpense}>
         <Flex direction="row" justifyContent="center">
           <TextField
-            name="name"
+            name="value"
             placeholder="Expense Name"
             label="Expense Name"
             labelHidden
@@ -86,13 +86,13 @@ const App = ({ signOut }) => {
       <View margin="3rem 0">
         {expenses.map((expense) => (
           <Flex
-            key={expense.id || expense.name}
+            key={expense.id}
             direction="row"
             justifyContent="center"
             alignItems="center"
           >
             <Text as="strong" fontWeight={700}>
-              {expense.name}
+              {expense.value}
             </Text>
             <Text as="span">{expense.description}</Text>
             <Button variation="link" onClick={() => deleteExpense(expense)}>

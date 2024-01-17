@@ -22,17 +22,17 @@ export declare type ValidationResponse = {
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type ExpenseUpdateFormInputValues = {
-    name?: number;
+    value?: number;
     description?: string;
 };
 export declare type ExpenseUpdateFormValidationValues = {
-    name?: ValidationFunction<number>;
+    value?: ValidationFunction<number>;
     description?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type ExpenseUpdateFormOverridesProps = {
     ExpenseUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
-    name?: PrimitiveOverrideProps<TextFieldProps>;
+    value?: PrimitiveOverrideProps<TextFieldProps>;
     description?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type ExpenseUpdateFormProps = React.PropsWithChildren<{
