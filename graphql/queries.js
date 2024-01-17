@@ -5,7 +5,7 @@ export const getExpense = /* GraphQL */ `
   query GetExpense($id: ID!) {
     getExpense(id: $id) {
       id
-      value
+      valu
       description
       createdAt
       updatedAt
@@ -22,7 +22,7 @@ export const listExpenses = /* GraphQL */ `
     listExpenses(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        value
+        valu
         description
         createdAt
         updatedAt
