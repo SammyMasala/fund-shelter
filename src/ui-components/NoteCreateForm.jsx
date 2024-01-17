@@ -9,7 +9,7 @@ import * as React from "react";
 import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { generateClient } from "aws-amplify/api";
-import { createExpense } from "../../gql/mutations";
+import { createExpense } from "../../graphql/mutations";
 const client = generateClient();
 export default function ExpenseCreateForm(props) {
   const {
