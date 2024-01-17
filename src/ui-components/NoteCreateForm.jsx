@@ -9,9 +9,9 @@ import * as React from "react";
 import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { generateClient } from "aws-amplify/api";
-import { createNote } from "../../gql/mutations";
+import { createExpense } from "../../gql/mutations";
 const client = generateClient();
-export default function NoteCreateForm(props) {
+export default function ExpenseCreateForm(props) {
   const {
     clearOnSuccess = true,
     onSuccess,
@@ -103,7 +103,7 @@ export default function NoteCreateForm(props) {
             }
           });
           await client.graphql({
-            query: createNote.replaceAll("__typename", ""),
+            query: createExpense.replaceAll("__typename", ""),
             variables: {
               input: {
                 ...modelFields,
@@ -123,7 +123,7 @@ export default function NoteCreateForm(props) {
           }
         }
       }}
-      {...getOverrideProps(overrides, "NoteCreateForm")}
+      {...getOverrideProps(overrides, "ExpenseCreateForm")}
       {...rest}
     >
       <TextField

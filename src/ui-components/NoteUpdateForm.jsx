@@ -9,13 +9,13 @@ import * as React from "react";
 import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { generateClient } from "aws-amplify/api";
-import { getNote } from "../../gql/queries";
-import { updateNote } from "../../gql/mutations";
+import { getExpense } from "../../gql/queries";
+import { updateExpense } from "../../gql/mutations";
 const client = generateClient();
-export default function NoteUpdateForm(props) {
+export default function ExpenseUpdateForm(props) {
   const {
     id: idProp,
-    note: noteModelProp,
+    expense: expenseModelProp,
     onSuccess,
     onError,
     onSubmit,
@@ -36,30 +36,30 @@ export default function NoteUpdateForm(props) {
   const [image, setImage] = React.useState(initialValues.image);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    const cleanValues = noteRecord
-      ? { ...initialValues, ...noteRecord }
+    const cleanValues = expenseRecord
+      ? { ...initialValues, ...expenseRecord }
       : initialValues;
     setName(cleanValues.name);
     setDescription(cleanValues.description);
     setImage(cleanValues.image);
     setErrors({});
   };
-  const [noteRecord, setNoteRecord] = React.useState(noteModelProp);
+  const [expenseRecord, setExpenseRecord] = React.useState(expenseModelProp);
   React.useEffect(() => {
     const queryData = async () => {
       const record = idProp
         ? (
             await client.graphql({
-              query: getNote.replaceAll("__typename", ""),
+              query: getExpense.replaceAll("__typename", ""),
               variables: { id: idProp },
             })
-          )?.data?.getNote
-        : noteModelProp;
-      setNoteRecord(record);
+          )?.data?.getExpense
+        : expenseModelProp;
+      setExpenseRecord(record);
     };
     queryData();
-  }, [idProp, noteModelProp]);
-  React.useEffect(resetStateValues, [noteRecord]);
+  }, [idProp, expenseModelProp]);
+  React.useEffect(resetStateValues, [expenseRecord]);
   const validations = {
     name: [{ type: "Required" }],
     description: [],
@@ -124,10 +124,10 @@ export default function NoteUpdateForm(props) {
             }
           });
           await client.graphql({
-            query: updateNote.replaceAll("__typename", ""),
+            query: updateExpense.replaceAll("__typename", ""),
             variables: {
               input: {
-                id: noteRecord.id,
+                id: expenseRecord.id,
                 ...modelFields,
               },
             },
@@ -142,7 +142,7 @@ export default function NoteUpdateForm(props) {
           }
         }
       }}
-      {...getOverrideProps(overrides, "NoteUpdateForm")}
+      {...getOverrideProps(overrides, "ExpenseUpdateForm")}
       {...rest}
     >
       <TextField
@@ -234,7 +234,7 @@ export default function NoteUpdateForm(props) {
             event.preventDefault();
             resetStateValues();
           }}
-          isDisabled={!(idProp || noteModelProp)}
+          isDisabled={!(idProp || expenseModelProp)}
           {...getOverrideProps(overrides, "ResetButton")}
         ></Button>
         <Flex
@@ -246,7 +246,7 @@ export default function NoteUpdateForm(props) {
             type="submit"
             variation="primary"
             isDisabled={
-              !(idProp || noteModelProp) ||
+              !(idProp || expenseModelProp) ||
               Object.values(errors).some((e) => e?.hasError)
             }
             {...getOverrideProps(overrides, "SubmitButton")}

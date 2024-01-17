@@ -10,29 +10,29 @@ import {
   View,
   withAuthenticator,
 } from "@aws-amplify/ui-react";
-import { listNotes } from "./graphql/queries";
+import { listExpenses } from "./graphql/queries";
 import {
-  createNote as createNoteMutation,
-  deleteNote as deleteNoteMutation,
+  createExpense as createExpenseMutation,
+  deleteExpense as deleteExpenseMutation,
 } from "./graphql/mutations";
 
 import { generateClient } from "@aws-amplify/api";
 const client = generateClient();
 
 const App = ({ signOut }) => {
-  const [notes, setNotes] = useState([]);
+  const [expenses, setExpenses] = useState([]);
 
   useEffect(() => {
-    fetchNotes();
+    fetchExpenses();
   }, []);
 
-  async function fetchNotes() {
-    const apiData = await client.graphql({ query: listNotes });
-    const notesFromAPI = apiData.data.listNotes.items;
-    setNotes(notesFromAPI);
+  async function fetchExpenses() {
+    const apiData = await client.graphql({ query: listExpenses });
+    const expensesFromAPI = apiData.data.listExpenses.items;
+    setExpenses(expensesFromAPI);
   }
 
-  async function createNote(event) {
+  async function createExpense(event) {
     event.preventDefault();
     const form = new FormData(event.target);
     const data = {
@@ -40,63 +40,63 @@ const App = ({ signOut }) => {
       description: form.get("description"),
     };
     await client.graphql({
-      query: createNoteMutation,
+      query: createExpenseMutation,
       variables: { input: data },
     });
-    fetchNotes();
+    fetchExpenses();
     event.target.reset();
   }
 
-  async function deleteNote({ id }) {
-    const newNotes = notes.filter((note) => note.id !== id);
-    setNotes(newNotes);
+  async function deleteExpense({ id }) {
+    const newExpenses = expenses.filter((expense) => expense.id !== id);
+    setExpenses(newExpenses);
     await client.graphql({
-      query: deleteNoteMutation,
+      query: deleteExpenseMutation,
       variables: { input: { id } },
     });
   }
 
   return (
     <View className="App">
-      <Heading level={1}>My Notes App</Heading>
-      <View as="form" margin="3rem 0" onSubmit={createNote}>
+      <Heading level={1}>My Expenses App</Heading>
+      <View as="form" margin="3rem 0" onSubmit={createExpense}>
         <Flex direction="row" justifyContent="center">
           <TextField
             name="name"
-            placeholder="Note Name"
-            label="Note Name"
+            placeholder="Expense Name"
+            label="Expense Name"
             labelHidden
             variation="quiet"
             required
           />
           <TextField
             name="description"
-            placeholder="Note Description"
-            label="Note Description"
+            placeholder="Expense Description"
+            label="Expense Description"
             labelHidden
             variation="quiet"
             required
           />
           <Button type="submit" variation="primary">
-            Create Note
+            Create Expense
           </Button>
         </Flex>
       </View>
-      <Heading level={2}>Current Notes</Heading>
+      <Heading level={2}>Current Expenses</Heading>
       <View margin="3rem 0">
-        {notes.map((note) => (
+        {expenses.map((expense) => (
           <Flex
-            key={note.id || note.name}
+            key={expense.id || expense.name}
             direction="row"
             justifyContent="center"
             alignItems="center"
           >
             <Text as="strong" fontWeight={700}>
-              {note.name}
+              {expense.name}
             </Text>
-            <Text as="span">{note.description}</Text>
-            <Button variation="link" onClick={() => deleteNote(note)}>
-              Delete note
+            <Text as="span">{expense.description}</Text>
+            <Button variation="link" onClick={() => deleteExpense(expense)}>
+              Delete expense
             </Button>
           </Flex>
         ))}

@@ -21,31 +21,31 @@ export declare type ValidationResponse = {
     errorMessage?: string;
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
-export declare type NoteCreateFormInputValues = {
+export declare type ExpenseCreateFormInputValues = {
     name?: string;
     description?: string;
     image?: string;
 };
-export declare type NoteCreateFormValidationValues = {
+export declare type ExpenseCreateFormValidationValues = {
     name?: ValidationFunction<string>;
     description?: ValidationFunction<string>;
     image?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
-export declare type NoteCreateFormOverridesProps = {
-    NoteCreateFormGrid?: PrimitiveOverrideProps<GridProps>;
+export declare type ExpenseCreateFormOverridesProps = {
+    ExpenseCreateFormGrid?: PrimitiveOverrideProps<GridProps>;
     name?: PrimitiveOverrideProps<TextFieldProps>;
     description?: PrimitiveOverrideProps<TextFieldProps>;
     image?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
-export declare type NoteCreateFormProps = React.PropsWithChildren<{
-    overrides?: NoteCreateFormOverridesProps | undefined | null;
+export declare type ExpenseCreateFormProps = React.PropsWithChildren<{
+    overrides?: ExpenseCreateFormOverridesProps | undefined | null;
 } & {
     clearOnSuccess?: boolean;
-    onSubmit?: (fields: NoteCreateFormInputValues) => NoteCreateFormInputValues;
-    onSuccess?: (fields: NoteCreateFormInputValues) => void;
-    onError?: (fields: NoteCreateFormInputValues, errorMessage: string) => void;
-    onChange?: (fields: NoteCreateFormInputValues) => NoteCreateFormInputValues;
-    onValidate?: NoteCreateFormValidationValues;
+    onSubmit?: (fields: ExpenseCreateFormInputValues) => ExpenseCreateFormInputValues;
+    onSuccess?: (fields: ExpenseCreateFormInputValues) => void;
+    onError?: (fields: ExpenseCreateFormInputValues, errorMessage: string) => void;
+    onChange?: (fields: ExpenseCreateFormInputValues) => ExpenseCreateFormInputValues;
+    onValidate?: ExpenseCreateFormValidationValues;
 } & React.CSSProperties>;
-export default function NoteCreateForm(props: NoteCreateFormProps): React.ReactElement;
+export default function ExpenseCreateForm(props: ExpenseCreateFormProps): React.ReactElement;
