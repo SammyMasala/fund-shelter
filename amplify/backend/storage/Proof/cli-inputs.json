@@ -1,0 +1,14 @@
+{
+  "resourceName": "Proof",
+  "policyUUID": "aa1a4321",
+  "bucketName": "fundshelter20e171751f6f4cdd80d5226e4dbffb98",
+  "storageAccess": "auth",
+  "guestAccess": [],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
+  "triggerFunction": "NONE",
+  "groupAccess": {}
+}
