@@ -2,7 +2,7 @@ projects:
   fundshelter:
     schemaPath: src/graphql/schema.json
     includes:
-      - graphql
+      - src/graphql//*.ts
     excludes:
       - ./amplify/**
     extensions:
