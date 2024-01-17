@@ -23,7 +23,7 @@ export const updateExpense = /* GraphQL */ `
   ) {
     updateExpense(input: $input, condition: $condition) {
       id
-      name
+      value
       description
       createdAt
       updatedAt
@@ -38,7 +38,7 @@ export const deleteExpense = /* GraphQL */ `
   ) {
     deleteExpense(input: $input, condition: $condition) {
       id
-      name
+      value
       description
       createdAt
       updatedAt

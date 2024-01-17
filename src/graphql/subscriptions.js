@@ -5,7 +5,7 @@ export const onCreateExpense = /* GraphQL */ `
   subscription OnCreateExpense($filter: ModelSubscriptionExpenseFilterInput) {
     onCreateExpense(filter: $filter) {
       id
-      name
+      value
       description
       createdAt
       updatedAt
@@ -17,7 +17,7 @@ export const onUpdateExpense = /* GraphQL */ `
   subscription OnUpdateExpense($filter: ModelSubscriptionExpenseFilterInput) {
     onUpdateExpense(filter: $filter) {
       id
-      name
+      value
       description
       createdAt
       updatedAt
@@ -29,7 +29,7 @@ export const onDeleteExpense = /* GraphQL */ `
   subscription OnDeleteExpense($filter: ModelSubscriptionExpenseFilterInput) {
     onDeleteExpense(filter: $filter) {
       id
-      name
+      value
       description
       createdAt
       updatedAt
