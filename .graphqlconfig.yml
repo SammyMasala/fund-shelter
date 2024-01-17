@@ -2,14 +2,14 @@ projects:
   fundshelter:
     schemaPath: src/graphql/schema.json
     includes:
-      - gql/db
+      - graphql
     excludes:
       - ./amplify/**
     extensions:
       amplify:
         codeGenTarget: javascript
         generatedFileName: ''
-        docsFilePath: gql
+        docsFilePath: graphql
 extensions:
   amplify:
     version: 3

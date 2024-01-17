@@ -9,13 +9,11 @@ import * as React from "react";
 import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { generateClient } from "aws-amplify/api";
-import { getExpense } from "../../graphql/queries";
-import { updateExpense } from "../../graphql/mutations";
+import { createExpense } from "../../graphql/mutations";
 const client = generateClient();
-export default function ExpenseUpdateForm(props) {
+export default function ExpenseCreateForm(props) {
   const {
-    id: idProp,
-    expense: expenseModelProp,
+    clearOnSuccess = true,
     onSuccess,
     onError,
     onSubmit,
@@ -27,43 +25,20 @@ export default function ExpenseUpdateForm(props) {
   const initialValues = {
     name: "",
     description: "",
-    image: "",
   };
   const [name, setName] = React.useState(initialValues.name);
   const [description, setDescription] = React.useState(
     initialValues.description
   );
-  const [image, setImage] = React.useState(initialValues.image);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    const cleanValues = expenseRecord
-      ? { ...initialValues, ...expenseRecord }
-      : initialValues;
-    setName(cleanValues.name);
-    setDescription(cleanValues.description);
-    setImage(cleanValues.image);
+    setName(initialValues.name);
+    setDescription(initialValues.description);
     setErrors({});
   };
-  const [expenseRecord, setExpenseRecord] = React.useState(expenseModelProp);
-  React.useEffect(() => {
-    const queryData = async () => {
-      const record = idProp
-        ? (
-            await client.graphql({
-              query: getExpense.replaceAll("__typename", ""),
-              variables: { id: idProp },
-            })
-          )?.data?.getExpense
-        : expenseModelProp;
-      setExpenseRecord(record);
-    };
-    queryData();
-  }, [idProp, expenseModelProp]);
-  React.useEffect(resetStateValues, [expenseRecord]);
   const validations = {
     name: [{ type: "Required" }],
     description: [],
-    image: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -92,8 +67,7 @@ export default function ExpenseUpdateForm(props) {
         event.preventDefault();
         let modelFields = {
           name,
-          description: description ?? null,
-          image: image ?? null,
+          description,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -124,16 +98,18 @@ export default function ExpenseUpdateForm(props) {
             }
           });
           await client.graphql({
-            query: updateExpense.replaceAll("__typename", ""),
+            query: createExpense.replaceAll("__typename", ""),
             variables: {
               input: {
-                id: expenseRecord.id,
                 ...modelFields,
               },
             },
           });
           if (onSuccess) {
             onSuccess(modelFields);
+          }
+          if (clearOnSuccess) {
+            resetStateValues();
           }
         } catch (err) {
           if (onError) {
@@ -142,21 +118,24 @@ export default function ExpenseUpdateForm(props) {
           }
         }
       }}
-      {...getOverrideProps(overrides, "ExpenseUpdateForm")}
+      {...getOverrideProps(overrides, "ExpenseCreateForm")}
       {...rest}
     >
       <TextField
         label="Name"
         isRequired={true}
         isReadOnly={false}
+        type="number"
+        step="any"
         value={name}
         onChange={(e) => {
-          let { value } = e.target;
+          let value = isNaN(parseFloat(e.target.value))
+            ? e.target.value
+            : parseFloat(e.target.value);
           if (onChange) {
             const modelFields = {
               name: value,
               description,
-              image,
             };
             const result = onChange(modelFields);
             value = result?.name ?? value;
@@ -182,7 +161,6 @@ export default function ExpenseUpdateForm(props) {
             const modelFields = {
               name,
               description: value,
-              image,
             };
             const result = onChange(modelFields);
             value = result?.description ?? value;
@@ -197,45 +175,18 @@ export default function ExpenseUpdateForm(props) {
         hasError={errors.description?.hasError}
         {...getOverrideProps(overrides, "description")}
       ></TextField>
-      <TextField
-        label="Image"
-        isRequired={false}
-        isReadOnly={false}
-        value={image}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              name,
-              description,
-              image: value,
-            };
-            const result = onChange(modelFields);
-            value = result?.image ?? value;
-          }
-          if (errors.image?.hasError) {
-            runValidationTasks("image", value);
-          }
-          setImage(value);
-        }}
-        onBlur={() => runValidationTasks("image", image)}
-        errorMessage={errors.image?.errorMessage}
-        hasError={errors.image?.hasError}
-        {...getOverrideProps(overrides, "image")}
-      ></TextField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}
       >
         <Button
-          children="Reset"
+          children="Clear"
           type="reset"
           onClick={(event) => {
             event.preventDefault();
             resetStateValues();
           }}
-          isDisabled={!(idProp || expenseModelProp)}
-          {...getOverrideProps(overrides, "ResetButton")}
+          {...getOverrideProps(overrides, "ClearButton")}
         ></Button>
         <Flex
           gap="15px"
@@ -245,10 +196,7 @@ export default function ExpenseUpdateForm(props) {
             children="Submit"
             type="submit"
             variation="primary"
-            isDisabled={
-              !(idProp || expenseModelProp) ||
-              Object.values(errors).some((e) => e?.hasError)
-            }
+            isDisabled={Object.values(errors).some((e) => e?.hasError)}
             {...getOverrideProps(overrides, "SubmitButton")}
           ></Button>
         </Flex>
