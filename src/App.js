@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
-import "@aws-amplify/ui-react/styles.css";
 import {
   Button,
   Flex,
@@ -17,6 +16,9 @@ import {
 } from "./graphql/mutations";
 
 import { generateClient } from "@aws-amplify/api";
+if (process.env.NODE_ENV !== 'test') {
+  import ('@aws-amplify/ui-react/styles.css');
+}
 const client = generateClient();
 
 const App = ({ signOut }) => {
@@ -36,7 +38,7 @@ const App = ({ signOut }) => {
     event.preventDefault();
     const form = new FormData(event.target);
     const data = {
-      name: form.get("value"),
+      value: form.get("value"),
       description: form.get("description"),
     };
     await client.graphql({
