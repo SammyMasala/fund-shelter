@@ -5,10 +5,11 @@ import {
   Flex,
   Heading,
   Text,
-  TextField,
+  // TextField,
   View,
   withAuthenticator,
 } from "@aws-amplify/ui-react";
+import CreateExpense from './components-custom/CreateExpense.js'
 import { listExpenses } from "./graphql/queries";
 import {
   createExpense as createExpenseMutation,
@@ -28,12 +29,6 @@ const App = ({ signOut }) => {
     fetchExpenses();
   }, []);
 
-  async function fetchExpenses() {
-    const apiData = await client.graphql({ query: listExpenses });
-    const expensesFromAPI = apiData.data.listExpenses.items;
-    setExpenses(expensesFromAPI);
-  }
-
   async function createExpense(event) {
     event.preventDefault();
     const form = new FormData(event.target);
@@ -47,6 +42,12 @@ const App = ({ signOut }) => {
     });
     fetchExpenses();
     event.target.reset();
+}
+
+  async function fetchExpenses() {
+    const apiData = await client.graphql({ query: listExpenses });
+    const expensesFromAPI = apiData.data.listExpenses.items;
+    setExpenses(expensesFromAPI);
   }
 
   async function deleteExpense({ id }) {
@@ -61,29 +62,7 @@ const App = ({ signOut }) => {
   return (
     <View className="App">
       <Heading level={1}>My Expenses App</Heading>
-      <View as="form" margin="3rem 0" onSubmit={createExpense}>
-        <Flex direction="row" justifyContent="center">
-          <TextField
-            name="value"
-            placeholder="Expense Name"
-            label="Expense Name"
-            labelHidden
-            variation="quiet"
-            required
-          />
-          <TextField
-            name="description"
-            placeholder="Expense Description"
-            label="Expense Description"
-            labelHidden
-            variation="quiet"
-            required
-          />
-          <Button type="submit" variation="primary">
-            Create Expense
-          </Button>
-        </Flex>
-      </View>
+      <CreateExpense createExpenseFunction={createExpense}/>
       <Heading level={2}>Current Expenses</Heading>
       <View margin="3rem 0">
         {expenses.map((expense) => (
