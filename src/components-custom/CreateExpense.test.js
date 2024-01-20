@@ -3,6 +3,8 @@ import {userEvent} from '@testing-library/user-event';
 import CreateExpense from './CreateExpense';
 
 //UNIT TEST: CreateExpense.js
+//1. Expense form: Expense value, Expense description
+//2. Submit button: Submits Expense value and Expense description, executes submit function 
 
 describe("Unit Test CreateExpense component", () => {
     //Input 'Expense Value'
@@ -46,13 +48,13 @@ describe("Unit Test CreateExpense component", () => {
         const user = userEvent.setup();
         const valueElement = screen.getByPlaceholderText(/Expense Value/);
         await user.click(valueElement);
-
+        //valid
         await user.keyboard("112233");
         const submitBtn = screen.getByText(/Create Expense/);
         expect(submitBtn.getAttribute("disabled")).toBe(null);
-
+        //invalid
         await user.keyboard("aabbcc");
         expect(submitBtn.getAttribute("disabled")).toBe("");        
-    });
+    });    
 });
 

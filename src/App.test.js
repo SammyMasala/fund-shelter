@@ -1,20 +1,26 @@
-//E2E TEST: App
+//E2E TEST: App: STATUS
+//1. Login to main page - COMPLETE
+//- Input username and password into field
+//- Submit to login
 
-// const getElementByName = async (driver, name, timeout = 2000) => {
-//   const el = await driver.wait(until.elementsLocated(By.name(name)), timeout);
-//   return await driver.wait(until.elementIsVisible(el).timeout); 
-// }; 
+//2. Submit new expense
+//- Input expense value and expense description
+//- Submit input
+//- New expense appears on expense list
+
+//3. Delete expense
+//- Click delete button adjacent to Expense entry
+//- Expense is deleted from list
+//- List is updated 
 
 describe("e2e App Test", () =>{
   const webdriver = require("selenium-webdriver");
   const By = webdriver.By;
   const until = webdriver.until;
+  const driver = new webdriver.Builder().withCapabilities(webdriver.Capabilities.chrome()).build();
+  driver.get('http://localhost:3000');
 
-
-  test("Login should work with test loginData", async () =>{ 
-    const driver = new webdriver.Builder().withCapabilities(webdriver.Capabilities.chrome()).build();
-    driver.get('http://localhost:3000');
-  
+  test("Login to main page", async () =>{ 
     const loginData = {
       username: "test-acc",
       password: "112233aabbcc" 
