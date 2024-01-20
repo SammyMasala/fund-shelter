@@ -31,9 +31,12 @@ describe("e2e App Test", () =>{
     await usernameField.sendKeys(loginData.username);
     await passwordField.sendKeys(loginData.password);   
     await passwordField.submit();
-    await driver.wait(until.elementLocated(By.name("value"), 20000));
-    driver.quit();
+    await driver.wait(until.elementLocated(By.name("value"), 20000));    
   }, 20000);
+
+  it("Ends test", () => {
+    driver.quit();
+  })
 });
 
 

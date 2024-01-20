@@ -56,5 +56,21 @@ describe("Unit Test CreateExpense component", () => {
         await user.keyboard("aabbcc");
         expect(submitBtn.getAttribute("disabled")).toBe("");        
     });    
+    test("Button 'Create Expense' should execute testSubmitFunc" , async () =>{
+        let testSubmitOutput;
+        const testSubmitFunc = (event) => {
+            event.preventDefault();
+            testSubmitOutput = "success!";
+        };
+        render(<CreateExpense createExpenseFunction={testSubmitFunc}/>);
+        const user = userEvent.setup();
+        const valueElement = screen.getByPlaceholderText(/Expense Value/);
+        await user.click(valueElement);
+        //valid
+        await user.keyboard("112233{enter}");
+        const submitBtn = screen.getByText(/Create Expense/);
+        await user.click(submitBtn);
+        expect(testSubmitOutput).toBe("success!");
+    });  
 });
 
