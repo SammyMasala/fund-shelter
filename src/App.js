@@ -10,11 +10,11 @@ import {
   withAuthenticator,
 } from "@aws-amplify/ui-react";
 import CreateExpense from './components-custom/CreateExpense.js'
-import { listExpenses } from "./graphql/queries";
+import { listExpenses } from "/graphql/queries";
 import {
   createExpense as createExpenseMutation,
   deleteExpense as deleteExpenseMutation,
-} from "./graphql/mutations";
+} from "/graphql/mutations";
 
 import { generateClient } from "@aws-amplify/api";
 if (process.env.NODE_ENV !== 'test') {
