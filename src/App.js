@@ -28,12 +28,12 @@ const App = ({ signOut }) => {
   const [records, setMonths] = useState([]);
 
   useEffect(() => {
-    const setup = async () => {
-      await fetchMonths();
-      await fetchExpenses(records[0].id);
+    const setup = () => {
+      fetchMonths();
+      fetchExpenses(getLatestMonthID());
     }
     setup();    
-  }, [records]);
+  }, );
 
   async function createExpense(event) {
     event.preventDefault();
@@ -41,13 +41,13 @@ const App = ({ signOut }) => {
     const data = {
       value: form.get("value"),
       description: form.get("description"),
-      monthrecordID: records[0].id
+      monthrecordID: getLatestMonthID()
     };
     await client.graphql({
       query: createExpenseMutation,
       variables: { input: data },
     });
-    fetchExpenses(records[0].id);
+    fetchExpenses(getLatestMonthID());
     event.target.reset();
   }
 
@@ -63,7 +63,7 @@ const App = ({ signOut }) => {
       variables: { input: data },
     });
     fetchMonths();
-    fetchExpenses(records[0].id);
+    fetchExpenses(getLatestMonthID());
     event.target.reset();
   } 
 
@@ -74,15 +74,16 @@ const App = ({ signOut }) => {
   //   setExpenses(expensesFromAPI);
   // }
 
-  function getLatestMonthID(){
-    return (records.sort((record) => {return record.updatedAt}))[0]; 
+  async function getLatestMonthID(){
+    const newRecord = records.sort((a, b) => new Date(a.updatedAt) - new Date(b.updatedAt));
+    newRecord.reverse();
+
+    return newRecord[0].id; 
   }
 
   async function fetchExpenses(id) {
     const apiData = await client.graphql({ query: listExpenses });
-    const expensesFiltered = apiData.data.listExpenses.items((expense) => expense.monthrecordID === id);
-    console.log(records);
-    console.log(expensesFiltered);
+    const expensesFiltered = apiData.data.listExpenses.items.filter((expense) => expense.monthrecordID === id);
     setExpenses(expensesFiltered);
   }
 
