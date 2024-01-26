@@ -25,42 +25,34 @@ const client = generateClient();
 
 const App = ({ signOut }) => {
   const [expenses, setExpenses] = useState([]);
-  const [records, setMonths] = useState([])
+  const [records, setMonths] = useState([]);
 
   useEffect(() => {
-    fetchExpenses();
-    fetchMonths();
-  }, []);
-
-  async function getLatestMonth(){
-    // 
-    return alert("WIP");
-  }
-  async function getMonthID(event){
-    // 
-    return alert("WIP");
-  } 
+    const setup = async () => {
+      await fetchMonths();
+      await fetchExpenses(records[0].id);
+    }
+    setup();    
+  }, [records]);
 
   async function createExpense(event) {
     event.preventDefault();
-    alert("WIP")
     const form = new FormData(event.target);
     const data = {
       value: form.get("value"),
       description: form.get("description"),
-      monthID: records[records.length-1].id
+      monthrecordID: records[0].id
     };
     await client.graphql({
       query: createExpenseMutation,
       variables: { input: data },
     });
-    fetchExpenses();
+    fetchExpenses(records[0].id);
     event.target.reset();
   }
 
   async function createMonth(event) {
     event.preventDefault();
-    alert("WIP")
     const form = new FormData(event.target);
     const data = {
       maxSpending: form.get("value"),
@@ -71,13 +63,27 @@ const App = ({ signOut }) => {
       variables: { input: data },
     });
     fetchMonths();
+    fetchExpenses(records[0].id);
     event.target.reset();
   } 
 
-  async function fetchExpenses() {
+  //DEBUG: View All Expenses
+  // async function fetchAllExpenses() {
+  //   const apiData = await client.graphql({ query: listExpenses });
+  //   const expensesFromAPI = apiData.data.listExpenses.items;
+  //   setExpenses(expensesFromAPI);
+  // }
+
+  function getLatestMonthID(){
+    return (records.sort((record) => {return record.updatedAt}))[0]; 
+  }
+
+  async function fetchExpenses(id) {
     const apiData = await client.graphql({ query: listExpenses });
-    const expensesFromAPI = apiData.data.listExpenses.items;
-    setExpenses(expensesFromAPI);
+    const expensesFiltered = apiData.data.listExpenses.items((expense) => expense.monthrecordID === id);
+    console.log(records);
+    console.log(expensesFiltered);
+    setExpenses(expensesFiltered);
   }
 
   async function fetchMonths() {
