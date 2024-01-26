@@ -38,16 +38,17 @@ const App = ({ signOut }) => {
   async function createExpense(event) {
     event.preventDefault();
     const form = new FormData(event.target);
+    const monthRecordID = await getLatestMonthID();
     const data = {
       value: form.get("value"),
       description: form.get("description"),
-      monthrecordID: getLatestMonthID()
+      monthrecordID: monthRecordID
     };
     await client.graphql({
       query: createExpenseMutation,
       variables: { input: data },
     });
-    fetchExpenses(getLatestMonthID());
+    fetchExpenses(await getLatestMonthID());
     event.target.reset();
   }
 
@@ -63,7 +64,7 @@ const App = ({ signOut }) => {
       variables: { input: data },
     });
     fetchMonths();
-    fetchExpenses(getLatestMonthID());
+    fetchExpenses(await getLatestMonthID());
     event.target.reset();
   } 
 
@@ -75,15 +76,16 @@ const App = ({ signOut }) => {
   // }
 
   async function getLatestMonthID(){
-    const newRecord = records.sort((a, b) => new Date(a.updatedAt) - new Date(b.updatedAt));
-    newRecord.reverse();
-
-    return newRecord[0].id; 
+    // const newRecord = records.sort((a, b) => new Date(a.updatedAt) - new Date(b.updatedAt));
+    // newRecord.reverse();
+    // return newRecord[0].id; 
   }
 
   async function fetchExpenses(id) {
     const apiData = await client.graphql({ query: listExpenses });
     const expensesFiltered = apiData.data.listExpenses.items.filter((expense) => expense.monthrecordID === id);
+    console.log(id);
+    console.log(expensesFiltered);  
     setExpenses(expensesFiltered);
   }
 
