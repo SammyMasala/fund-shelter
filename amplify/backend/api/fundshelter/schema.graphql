@@ -1,6 +1,5 @@
 type MonthRecord @model @auth(rules: [{allow: public}]) {
   id: ID!
-  startDate: AWSDate!
   maxSpending: Int!
   Expenses: [Expense] @hasMany(indexName: "byMonthRecord", fields: ["id"])
   currentSpending: Int!

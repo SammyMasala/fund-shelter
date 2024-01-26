@@ -9,8 +9,8 @@ import * as React from "react";
 import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { generateClient } from "aws-amplify/api";
-import { getMonthRecord } from "../../graphql/queries";
-import { updateMonthRecord } from "../../graphql/mutations";
+import { getMonthRecord } from "../graphql/queries";
+import { updateMonthRecord } from "../graphql/mutations";
 const client = generateClient();
 export default function MonthRecordUpdateForm(props) {
   const {
@@ -25,11 +25,9 @@ export default function MonthRecordUpdateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    startDate: "",
     maxSpending: "",
     currentSpending: "",
   };
-  const [startDate, setStartDate] = React.useState(initialValues.startDate);
   const [maxSpending, setMaxSpending] = React.useState(
     initialValues.maxSpending
   );
@@ -41,7 +39,6 @@ export default function MonthRecordUpdateForm(props) {
     const cleanValues = monthRecordRecord
       ? { ...initialValues, ...monthRecordRecord }
       : initialValues;
-    setStartDate(cleanValues.startDate);
     setMaxSpending(cleanValues.maxSpending);
     setCurrentSpending(cleanValues.currentSpending);
     setErrors({});
@@ -64,7 +61,6 @@ export default function MonthRecordUpdateForm(props) {
   }, [idProp, monthRecordModelProp]);
   React.useEffect(resetStateValues, [monthRecordRecord]);
   const validations = {
-    startDate: [{ type: "Required" }],
     maxSpending: [{ type: "Required" }],
     currentSpending: [{ type: "Required" }],
   };
@@ -94,7 +90,6 @@ export default function MonthRecordUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          startDate,
           maxSpending,
           currentSpending,
         };
@@ -149,33 +144,6 @@ export default function MonthRecordUpdateForm(props) {
       {...rest}
     >
       <TextField
-        label="Start date"
-        isRequired={true}
-        isReadOnly={false}
-        type="date"
-        value={startDate}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              startDate: value,
-              maxSpending,
-              currentSpending,
-            };
-            const result = onChange(modelFields);
-            value = result?.startDate ?? value;
-          }
-          if (errors.startDate?.hasError) {
-            runValidationTasks("startDate", value);
-          }
-          setStartDate(value);
-        }}
-        onBlur={() => runValidationTasks("startDate", startDate)}
-        errorMessage={errors.startDate?.errorMessage}
-        hasError={errors.startDate?.hasError}
-        {...getOverrideProps(overrides, "startDate")}
-      ></TextField>
-      <TextField
         label="Max spending"
         isRequired={true}
         isReadOnly={false}
@@ -188,7 +156,6 @@ export default function MonthRecordUpdateForm(props) {
             : parseInt(e.target.value);
           if (onChange) {
             const modelFields = {
-              startDate,
               maxSpending: value,
               currentSpending,
             };
@@ -218,7 +185,6 @@ export default function MonthRecordUpdateForm(props) {
             : parseInt(e.target.value);
           if (onChange) {
             const modelFields = {
-              startDate,
               maxSpending,
               currentSpending: value,
             };

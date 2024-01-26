@@ -5,7 +5,6 @@ export const getMonthRecord = /* GraphQL */ `
   query GetMonthRecord($id: ID!) {
     getMonthRecord(id: $id) {
       id
-      startDate
       maxSpending
       Expenses {
         nextToken
@@ -27,7 +26,6 @@ export const listMonthRecords = /* GraphQL */ `
     listMonthRecords(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        startDate
         maxSpending
         currentSpending
         createdAt

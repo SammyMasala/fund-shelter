@@ -8,7 +8,6 @@ export const createMonthRecord = /* GraphQL */ `
   ) {
     createMonthRecord(input: $input, condition: $condition) {
       id
-      startDate
       maxSpending
       Expenses {
         nextToken
@@ -28,7 +27,6 @@ export const updateMonthRecord = /* GraphQL */ `
   ) {
     updateMonthRecord(input: $input, condition: $condition) {
       id
-      startDate
       maxSpending
       Expenses {
         nextToken
@@ -48,7 +46,6 @@ export const deleteMonthRecord = /* GraphQL */ `
   ) {
     deleteMonthRecord(input: $input, condition: $condition) {
       id
-      startDate
       maxSpending
       Expenses {
         nextToken

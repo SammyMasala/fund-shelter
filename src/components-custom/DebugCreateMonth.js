@@ -10,7 +10,7 @@ if (process.env.NODE_ENV !== 'test') {
   import ('@aws-amplify/ui-react/styles.css');
 }
 
-export default function CreateExpense({createExpenseFunction}){
+export default function DebugCreateMonth({createMonthFunction}){
     const [hasError, setHasError] = React.useState(true);
     const [isDisabled, setIsDisabled] = React.useState(true);
     function validateInputValue(event){
@@ -25,13 +25,13 @@ export default function CreateExpense({createExpenseFunction}){
       }
     }
     return (
-        <View as="form" margin="3rem 0" role="form" onSubmit={createExpenseFunction}>
+        <View as="form" margin="3rem 0" name={new Date().toLocaleDateString()} role="form" onSubmit={createMonthFunction}>
         <Flex direction="row" justifyContent="center">
           <TextField
             mode="numeric"
             name="value"
-            placeholder="Expense Value"
-            label="Expense Value"
+            placeholder="Spending Limit"
+            label="Max Spending"
             labelHidden
             variation="quiet"
             required
@@ -39,16 +39,8 @@ export default function CreateExpense({createExpenseFunction}){
             errorMessage="Whole Numbers. Keep it simple!"
             onChange = {validateInputValue}
           />
-          <TextField
-            name="description"
-            placeholder="Expense Description"
-            label="Expense Description"
-            labelHidden
-            variation="quiet"
-            required
-          />
-          <Button type="submit" id="expense-submit-button" variation="primary" disabled={isDisabled}>
-            Create Expense
+          <Button type="submit" variation="primary" disabled={isDisabled}>
+            Create Month
           </Button>
         </Flex>
       </View>

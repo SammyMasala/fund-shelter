@@ -18,6 +18,7 @@ describe("e2e App Test", () =>{
   const By = webdriver.By;
   const until = webdriver.until;
   const driver = new webdriver.Builder().withCapabilities(webdriver.Capabilities.chrome()).build();
+  driver.manage().setTimeouts({ implicit:2000 })
   driver.get('http://localhost:3000');
 
   test("Login to main page", async () =>{ 
@@ -26,13 +27,24 @@ describe("e2e App Test", () =>{
       password: "112233aabbcc" 
     }  
 
-    const usernameField = await driver.findElement(By.name("username"));
-    const passwordField = await driver.findElement(By.name("password"));
+    const usernameField = await driver.findElement(By.css("input[name='username']"));
+    const passwordField = await driver.findElement(By.css("input[name='password']"));
     await usernameField.sendKeys(loginData.username);
     await passwordField.sendKeys(loginData.password);   
     await passwordField.submit();
     await driver.wait(until.elementLocated(By.name("value"), 20000));    
   }, 20000);
+
+  test("User should see elements to create Expense", async () =>{
+    driver.get('http://localhost:3000');
+    const expenseValueField = await driver.findElement(By.css("input[name='value']"));
+    const expenseDescField = await driver.findElement(By.css("input[name='description']"));
+    const submitBtnElement = await driver.findElement(By.css("button[id='expense-submit-button']"));
+
+    await expenseValueField.sendKeys("112233");
+    await expenseDescField.sendKeys("test");
+    await expenseDescField.submit();
+  })
 
   it("Ends test", () => {
     driver.quit();
