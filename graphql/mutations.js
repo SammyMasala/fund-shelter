@@ -1,6 +1,66 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const createMonthRecord = /* GraphQL */ `
+  mutation CreateMonthRecord(
+    $input: CreateMonthRecordInput!
+    $condition: ModelMonthRecordConditionInput
+  ) {
+    createMonthRecord(input: $input, condition: $condition) {
+      id
+      startDate
+      maxSpending
+      Expenses {
+        nextToken
+        __typename
+      }
+      currentSpending
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const updateMonthRecord = /* GraphQL */ `
+  mutation UpdateMonthRecord(
+    $input: UpdateMonthRecordInput!
+    $condition: ModelMonthRecordConditionInput
+  ) {
+    updateMonthRecord(input: $input, condition: $condition) {
+      id
+      startDate
+      maxSpending
+      Expenses {
+        nextToken
+        __typename
+      }
+      currentSpending
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const deleteMonthRecord = /* GraphQL */ `
+  mutation DeleteMonthRecord(
+    $input: DeleteMonthRecordInput!
+    $condition: ModelMonthRecordConditionInput
+  ) {
+    deleteMonthRecord(input: $input, condition: $condition) {
+      id
+      startDate
+      maxSpending
+      Expenses {
+        nextToken
+        __typename
+      }
+      currentSpending
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
 export const createExpense = /* GraphQL */ `
   mutation CreateExpense(
     $input: CreateExpenseInput!
@@ -10,6 +70,7 @@ export const createExpense = /* GraphQL */ `
       id
       value
       description
+      monthrecordID
       createdAt
       updatedAt
       __typename
@@ -25,6 +86,7 @@ export const updateExpense = /* GraphQL */ `
       id
       value
       description
+      monthrecordID
       createdAt
       updatedAt
       __typename
@@ -40,6 +102,7 @@ export const deleteExpense = /* GraphQL */ `
       id
       value
       description
+      monthrecordID
       createdAt
       updatedAt
       __typename

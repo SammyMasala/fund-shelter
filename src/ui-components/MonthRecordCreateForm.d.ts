@@ -22,19 +22,16 @@ export declare type ValidationResponse = {
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type MonthRecordCreateFormInputValues = {
-    startDate?: string;
     maxSpending?: number;
     currentSpending?: number;
 };
 export declare type MonthRecordCreateFormValidationValues = {
-    startDate?: ValidationFunction<string>;
     maxSpending?: ValidationFunction<number>;
     currentSpending?: ValidationFunction<number>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type MonthRecordCreateFormOverridesProps = {
     MonthRecordCreateFormGrid?: PrimitiveOverrideProps<GridProps>;
-    startDate?: PrimitiveOverrideProps<TextFieldProps>;
     maxSpending?: PrimitiveOverrideProps<TextFieldProps>;
     currentSpending?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;

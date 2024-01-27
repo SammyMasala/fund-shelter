@@ -22,7 +22,7 @@ describe("Unit Test CreateExpense component", () => {
         expect(valueElement.value).toBe("112233");
     });
 
-    //Input 'Expanse Description' 
+    //Input 'Expense Description' 
     test("Input 'Expense Description' should exist", async () =>{
         render(<CreateExpense />);
         const valueElement = screen.getByPlaceholderText(/Expense Description/);
@@ -67,7 +67,7 @@ describe("Unit Test CreateExpense component", () => {
         const valueElement = screen.getByPlaceholderText(/Expense Value/);
         await user.click(valueElement);
         //valid
-        await user.keyboard("112233{enter}");
+        await user.keyboard("112233");
         const submitBtn = screen.getByText(/Create Expense/);
         await user.click(submitBtn);
         expect(testSubmitOutput).toBe("success!");
