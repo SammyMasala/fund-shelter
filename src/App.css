@@ -17,19 +17,21 @@
 }
 
 [palette-theme="light"]{
-  --default-color: #ccceeb;
-  --default-color-light: #eeeeff;
-  --default-color-text: #19191c;
-  --default-color-outline: #504f4f;
-  --primary-color: #f12d2d;
-  --primary-color-light: #fa5151;
-  --secondary-color: #4f33bb;
-  --secondary-color-light: #7857fe;
-  --contrast-color: #5b811e;
+  --bg-color: #202020;
+  --bg-color-bold: #131313;
+  --text-color: #ffffff;
+  --primary-color: #047d95;
+  --secondary-color: #092635;
+  --contrast-color: #b77627;
 }
 
 [palette-theme="fallout"]{
-
+  --bg-color: #202020;
+  --bg-color-bold: #131313;
+  --text-color: #ffffff;
+  --primary-color: #047d95;
+  --secondary-color: #092635;
+  --contrast-color: #b77627;
 }
 
 ::-webkit-scrollbar{
@@ -48,6 +50,8 @@
 .App {
   background-color: var(--bg-color);
   color: var(--text-color);
+  display: flex;
+  flex-direction: row;
   text-align: center;
   height: 9 80px;
 }
@@ -103,6 +107,10 @@
   color: var(--default-color-text) !important;
 }
 
+input {
+  color: var(--default-color-text) !important;
+}
+
 /*------ Components ------*/
 
 /* View Editor/Shelter */
@@ -122,7 +130,8 @@
   height: 900px;
   margin: 25px 10px 25px 10px;
   position: relative;
-  display: inline-block;
+  display: inline-flex;
+  flex-flow: column;
 }
 
 .view-editor{
@@ -136,8 +145,9 @@
 /* Editor Header */
 .editor-header {
   background-color: var(--bg-color);
-  height: 50px;   
+  flex: 0 0 50px;   
   padding: 10px;
+  margin: 10px 5px 10px 5px;
 }
 
 .editor-header-title{
@@ -160,51 +170,107 @@
   height: 50px !important; 
   padding: 2px !important; 
   width: 20% !important;
-  top: 25px !important;
+  top: 35px !important;
   right: 25px !important;
   position: absolute !important;
 }
 
 /* Editor Hero */
-.editor-hero{
-  height: 200px;
+.editor-hero {
+  border-style: dashed;
+  border-radius: 5px;
+  border-width: 1px;
+  border-color: var(--primary-color);
+}
+
+.editor-hero {
+  background-color: var(--bg-color);
+  flex: 0 0 200px;   
+  display: flex;
+  flex-direction: column;
+  margin: 10px 5px 10px 5px;
+}
+
+.hero-visualizer {
   margin: auto;
+  padding: 10px;
 }
 
-.editor-hero-visualizer {
-  height: 200px;
-  margin: auto;
-}
-
-.editor-hero-month {
-  background-color: var(--primary-color-light);
-  height: 100px;
-  position: relative;
-  bottom: 0% !important; 
-}
-
-.editor-hero-month {
-
+.hero-month {
+  background-color: var(--primary-color);
+  padding: 10px;
+  bottom: 0% t; 
 }
 
 /* Editor Expenses */
 .editor-expenses {
-  box-shadow: 2px 2px 2px #000000;
-  border-style: hidden;
-  border-radius: 5px;
-}
-.editor-expenses {
-  background-color: var(--default-color-light);
-  box-sizing: 10px;
-  padding: 25px;
-  margin: auto;
+  background-color: var(--bg-color);
+  margin: 10px 5px 10px 5px;
+  padding: 10px 0px 10px 0px;
+  flex: 1 0 400px;   
+  display: flex;
+  flex-direction: column;
   overflow: auto;
 } 
 
+.expenses-list{
+  background-color: var(--bg-color-bold) !important;
+  color: var(--text-color) !important; 
+  flex: auto;
+  margin: 5px !important;
+  padding: 15px;
+  overflow-y: auto;
+}
+
+.expenses-list-entry {
+  background-color: var(--bg-color);
+  height: 60px; 
+  display: flex;
+  flex-direction: row;
+  margin: 5px 0px 5px 0px;
+  padding: 5px;
+}
+
+.entry-text {
+  flex: auto;
+}
+
+.entry-text-value, .entry-text-description{
+  color: var(--text-color) !important;
+  text-align: left !important;
+  margin: auto !important;
+  padding-left: 10px !important;
+}
+
+.entry-text-value {
+  font-weight: bold !important;
+}
+
+.entry-text-description {
+  font-style: italic !important;
+} 
+
+.entry-button-delete {
+  flex: 0 1 100px;
+}
+
+
 /* Shelter List */
 .shelter-list {
-  background-color: var(--default-color-light);
-  height: 700px;
-  margin: auto;
+  flex: 1 0 700px;
+  margin: 5px;
+  padding: 15px;
   overflow: auto;
+}
+
+.shelter-list-entry {
+  background-color: var(--bg-color);
+  height: 200px; 
+  margin: 25px 0px 25px 0px;
+  padding: 0px;
+}
+
+.placeholder-shelter-value {
+  color: var(--text-color) !important;
+  margin: auto;
 }

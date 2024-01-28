@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 import {
   Button,
-  Flex,
   Heading,
   Text,
   // TextField,
@@ -88,6 +87,19 @@ const App = ({ signOut }) => {
       return records[0].id;
     }
   }
+  function getMonthState(limit, current){
+    const state = (limit - current)/limit*100;
+    //Return state is PLACEHOLDER
+    if (state > 50) {
+      return "Healthy";
+    }else if (state > 25) {
+      return "Danger";
+    }else if (state > 0) {
+      return "Critical";
+    } else {
+      return "Exceeded"
+    }      
+  }
 
   async function fetchExpenses(id) {
     try {
@@ -129,17 +141,15 @@ const App = ({ signOut }) => {
       <View className="view-shelter">
         <View className="shelter-list">
           {records.map((record) => (
-            <Flex
+            <View
               key={record.id}
-              direction="row"
-              justifyContent="center"
-              alignItems="center"
+              className="shelter-list-entry"
             >
-              <Text as="strong" fontWeight={700}>
-                {record.maxSpending}
+              {/* PLACEHOLDER */}
+              <Text className="placeholder-shelter-value">
+                {getMonthState(record.maxSpending,record.currentSpending)}
               </Text>
-              <Text as="span">{record.currentSpending}</Text>
-            </Flex>
+            </View>
           ))}
         </View>
       </View>
@@ -149,33 +159,35 @@ const App = ({ signOut }) => {
             <Button onClick={signOut} className="editor-header-signout">Sign Out</Button>    
         </View>
         <View className="editor-hero">
-          <View className="editor-hero-visualizer">          
+          <View className="hero-visualizer">          
           </View>
-          <View className="editor-hero-month">
+          <View className="hero-month">
             <DebugCreateMonth createMonthFunction={createMonth}/>
           </View>
         </View>        
         <View className="editor-expenses">
           <Heading level={3}>Current Expenses</Heading>
-          <View className="editor-expenses-list">
+          <View className="expenses-list">
             {expenses.map((expense) => (
-              <Flex
+              <View
+                className="expenses-list-entry"
                 key={expense.id}
-                direction="row"
-                justifyContent="center"
-                alignItems="center"
               >
-                <Text as="strong" fontWeight={700}>
-                  {expense.value}
-                </Text>
-                <Text as="span">{expense.description}</Text>
-                <Button variation="link" onClick={() => deleteExpense(expense)}>
+                <View className="entry-text">
+                  <Text className="entry-text-value">
+                    {expense.value}
+                  </Text>
+                  <Text className="entry-text-description">
+                    {expense.description}
+                  </Text>
+                </View>                
+                <Button variation="link" className="entry-button-delete" onClick={() => deleteExpense(expense)}>
                   Delete expense
                 </Button>
-              </Flex>
+              </View>
             ))}
-            <CreateExpense createExpenseFunction={createExpense}/>
           </View>
+          <CreateExpense createExpenseFunction={createExpense}/>
         </View> 
       </View>      
     </View>

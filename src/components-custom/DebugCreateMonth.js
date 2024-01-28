@@ -28,6 +28,7 @@ export default function DebugCreateMonth({createMonthFunction}){
         <View as="form" name={new Date().toLocaleDateString()} role="form" onSubmit={createMonthFunction}>
         <Flex direction="row" justifyContent="center">
           <TextField
+            className="form-field"
             mode="numeric"
             name="value"
             placeholder="Spending Limit"
