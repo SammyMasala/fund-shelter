@@ -1,6 +1,60 @@
-.App {
-  text-align: center;
+/*------ Global Properties ------*/
+/* Global Fonts */
+:root{
+  font-family: 'Trebuchet MS', sans-serif;
+  --heading-font: "Montserrat", sans-serif;
+  --nav-font: "Lato", sans-serif;
 }
+
+/* Global Colours */
+:root, [palette-theme="dark"]{
+  --bg-color: #202020;
+  --bg-color-bold: #131313;
+  --text-color: #ffffff;
+  --primary-color: #047d95;
+  --secondary-color: #092635;
+  --contrast-color: #b77627;
+}
+
+[palette-theme="light"]{
+  --default-color: #ccceeb;
+  --default-color-light: #eeeeff;
+  --default-color-text: #19191c;
+  --default-color-outline: #504f4f;
+  --primary-color: #f12d2d;
+  --primary-color-light: #fa5151;
+  --secondary-color: #4f33bb;
+  --secondary-color-light: #7857fe;
+  --contrast-color: #5b811e;
+}
+
+[palette-theme="fallout"]{
+
+}
+
+::-webkit-scrollbar{
+  width:10px;
+  background-color: var(--bg-color);
+}
+
+::-webkit-scrollbar-thumb{
+  width:2px;
+  background-color: var(--primary-color);
+}
+
+/*------ General Settings ------*/
+
+/* App */
+.App {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  text-align: center;
+  height: 9 80px;
+}
+/* 
+.App {
+  text-shadow: 1px 1px 3px var(--bg-color-bold);
+} */
 
 .App-logo {
   height: 40vmin;
@@ -14,9 +68,7 @@
 }
 
 .App-header {
-  background-color: #282c34;
   min-height: 100vh;
-  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -25,7 +77,7 @@
 }
 
 .App-link {
-  color: #61dafb;
+  color: var(--contrast-color);
 }
 
 @keyframes App-logo-spin {
@@ -35,4 +87,124 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+/* Amplify Buttons */
+.amplify-button {
+  color: var(--default-color-text); 
+}
+
+.amplify-button-disabled {
+
+}
+
+/* Amplify Heading */
+.amplify-heading {
+  color: var(--default-color-text) !important;
+}
+
+/*------ Components ------*/
+
+/* View Editor/Shelter */
+.view-editor, .view-shelter{
+  box-shadow: 1px 1px 2px var(--bg-color-bold);
+}
+
+.view-editor, .view-shelter {
+  background-color: var(--bg-color-bold);
+  border-style: hidden;
+  border-color: var(--primary-color);
+  border-width: 2px;
+}
+
+.view-editor, .view-shelter {
+  padding: 25px;
+  height: 900px;
+  margin: 25px 10px 25px 10px;
+  position: relative;
+  display: inline-block;
+}
+
+.view-editor{
+  width: 60%;
+}
+
+.view-shelter{
+  width: 35%;
+}
+
+/* Editor Header */
+.editor-header {
+  background-color: var(--bg-color);
+  height: 50px;   
+  padding: 10px;
+}
+
+.editor-header-title{
+  display: inline-block !important;
+}
+
+.editor-header-signout{
+  border-style: hidden !important;
+  border-radius: 0px !important; 
+}
+
+.editor-header-signout:hover{
+  background-color: var(--secondary-color) !important;
+  color:var(--primary-color) !important;
+}
+
+.editor-header-signout{
+  background-color: var(--primary-color) !important;
+  color: var(--default-color-text) !important;
+  height: 50px !important; 
+  padding: 2px !important; 
+  width: 20% !important;
+  top: 25px !important;
+  right: 25px !important;
+  position: absolute !important;
+}
+
+/* Editor Hero */
+.editor-hero{
+  height: 200px;
+  margin: auto;
+}
+
+.editor-hero-visualizer {
+  height: 200px;
+  margin: auto;
+}
+
+.editor-hero-month {
+  background-color: var(--primary-color-light);
+  height: 100px;
+  position: relative;
+  bottom: 0% !important; 
+}
+
+.editor-hero-month {
+
+}
+
+/* Editor Expenses */
+.editor-expenses {
+  box-shadow: 2px 2px 2px #000000;
+  border-style: hidden;
+  border-radius: 5px;
+}
+.editor-expenses {
+  background-color: var(--default-color-light);
+  box-sizing: 10px;
+  padding: 25px;
+  margin: auto;
+  overflow: auto;
+} 
+
+/* Shelter List */
+.shelter-list {
+  background-color: var(--default-color-light);
+  height: 700px;
+  margin: auto;
+  overflow: auto;
 }

@@ -25,7 +25,7 @@ export default function DebugCreateMonth({createMonthFunction}){
       }
     }
     return (
-        <View as="form" margin="3rem 0" name={new Date().toLocaleDateString()} role="form" onSubmit={createMonthFunction}>
+        <View as="form" name={new Date().toLocaleDateString()} role="form" onSubmit={createMonthFunction}>
         <Flex direction="row" justifyContent="center">
           <TextField
             mode="numeric"

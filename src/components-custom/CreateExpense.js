@@ -25,7 +25,7 @@ export default function CreateExpense({createExpenseFunction}){
       }
     }
     return (
-        <View as="form" margin="3rem 0" role="form" onSubmit={createExpenseFunction}>
+        <View as="form" role="form" onSubmit={createExpenseFunction}>
         <Flex direction="row" justifyContent="center">
           <TextField
             mode="numeric"
