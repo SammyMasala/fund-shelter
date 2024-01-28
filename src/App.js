@@ -9,8 +9,9 @@ import {
   withAuthenticator,
 } from "@aws-amplify/ui-react";
 import { CreateExpense, DebugCreateMonth } from './components-custom/'
-import { listExpenses, listMonthRecords } from "./graphql/queries";
+import { listExpenses, expensesByMonthrecordID, listMonthRecords } from "./graphql/queries";
 import {
+  updateMonthRecord,
   createExpense as createExpenseMutation,
   deleteExpense as deleteExpenseMutation,
   createMonthRecord as createMonthMutation, 
@@ -51,7 +52,8 @@ const App = ({ signOut }) => {
     } catch(exc) {
       console.log(exc);
     }
-      fetchExpenses(getLatestMonthID());
+      fetchExpenses(monthRecordID);
+      updateMonth(monthRecordID);
       event.target.reset();
   }
 
@@ -87,14 +89,17 @@ const App = ({ signOut }) => {
       return records[0].id;
     }
   }
-  function getMonthState(limit, current){
-    const state = (limit - current)/limit*100;
+  function getMonthState(record){
+    const limit = record.maxSpending;
+    const current = record.currentSpending;
+
+    const state = current/limit*100;
     //Return state is PLACEHOLDER
-    if (state > 50) {
+    if (state < 50) {
       return "Healthy";
-    }else if (state > 25) {
+    }else if (state < 75) {
       return "Danger";
-    }else if (state > 0) {
+    }else if (state < 100) {
       return "Critical";
     } else {
       return "Exceeded"
@@ -105,6 +110,8 @@ const App = ({ signOut }) => {
     try {
       const apiData = await client.graphql({ query: listExpenses });
       const expensesFiltered = apiData.data.listExpenses.items.filter((expense) => expense.monthrecordID === id);
+      // SORT Expenses in Descending Order
+      expensesFiltered.sort((a,b) => new Date(b.updatedAt) - new Date(a.updatedAt));
       setExpenses(expensesFiltered);
     } catch (exc) {
       console.log(exc);
@@ -123,8 +130,33 @@ const App = ({ signOut }) => {
     }    
   }
 
+  async function updateMonth(monthID) {
+    try {
+      const apiData = await client.graphql({ query: expensesByMonthrecordID, variables : {
+        monthrecordID: monthID
+      }});
+      const expensesFromAPI = apiData.data.expensesByMonthrecordID.items;
+
+      let newCurrSpending;
+      for (let i=0;i<expensesFromAPI.length;i++){
+        newCurrSpending = newCurrSpending + expensesFromAPI[i].value;
+      }
+
+      await client.graphql({ query: updateMonthRecord, variables: {
+        id: monthID,
+        currentSpending : newCurrSpending
+      } })
+    } catch (exc) {
+      console.log(exc);
+    }
+
+    fetchMonths();
+  }
+
   async function deleteExpense({ id }) {
-    const newExpenses = expenses.filter((expense) => expense.id !== id);
+    let newExpenses = expenses.filter((expense) => expense.id === id);
+    const monthID = newExpenses[0].monthrecordID;
+    newExpenses = expenses.filter((expense) => expense.id !== id);
     setExpenses(newExpenses);
     try {    
       await client.graphql({
@@ -134,6 +166,8 @@ const App = ({ signOut }) => {
     } catch (exc) {
       console.log(exc);
     }  
+
+    updateMonth(monthID);
   }
 
   return (
@@ -147,7 +181,7 @@ const App = ({ signOut }) => {
             >
               {/* PLACEHOLDER */}
               <Text className="placeholder-shelter-value">
-                {getMonthState(record.maxSpending,record.currentSpending)}
+                {getMonthState(record)}
               </Text>
             </View>
           ))}
