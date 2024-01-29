@@ -3,13 +3,16 @@ import "./App.css";
 import {
   Button,
   Heading,
-  Text,
-  // TextField,
   View,
   withAuthenticator,
 } from "@aws-amplify/ui-react";
-import { CreateExpense, DebugCreateMonth, SplineUnderConstruction, SplineFloorRecord } from './components-custom/'
-import { listExpenses, expensesByMonthrecordID, listMonthRecords } from "./graphql/queries";
+import { ExpensesList, 
+  ShelterList,
+  CreateExpense, 
+  DebugCreateMonth, 
+  SplineUnderConstruction, 
+} from './components-custom/'
+import { expensesByMonthrecordID, listMonthRecords } from "./graphql/queries";
 import {
   updateMonthRecord,
   createExpense as createExpenseMutation,
@@ -28,13 +31,27 @@ const App = ({ signOut }) => {
   const [records, setMonths] = useState([]);
 
   useEffect(() => {
-    const setup = () => {
-      fetchMonths();
-      fetchExpenses(getLatestMonthID());
-    }
-    setup();    
-  }, );
+    fetchMonths();
+  }, []);
 
+  useEffect(() => {
+    updateMonth(getLatestMonthID());
+  }, [expenses])
+
+  useEffect(() => {
+    fetchExpenses(getLatestMonthID());
+  }, [records])
+
+  function checkRenewStatus() {
+    if(!records.length){
+      return;
+    }
+    const cmpDate = (new Date().getFullYear() == new Date(records[0]).getFullYear()) && (new Date().getMonth() == new Date(records[0]).getMonth());   
+    if(cmpDate){
+      renewMonth();
+    }    
+  }
+  
   async function createExpense(event) {
     event.preventDefault();
     const form = new FormData(event.target);
@@ -49,12 +66,29 @@ const App = ({ signOut }) => {
         query: createExpenseMutation,
         variables: { input: data },
       });
+      
+      fetchExpenses(monthRecordID);
     } catch(exc) {
       console.log(exc);
+    }      
+    event.target.reset();
+  }
+
+  async function renewMonth() {
+    const data = {
+      maxSpending: records[0].maxSpending,
+      currentSpending: 0,
     }
-      fetchExpenses(monthRecordID);
-      updateMonth(monthRecordID);
-      event.target.reset();
+    try {
+      await client.graphql({
+        query: createMonthMutation,
+        variables: { input: data },
+      });
+    } catch(exc) {
+      console.log(exc);
+    }    
+    fetchMonths();
+    fetchExpenses(getLatestMonthID());
   }
 
   async function createMonth(event) {
@@ -78,7 +112,7 @@ const App = ({ signOut }) => {
   } 
 
   //DEBUG: View All Expenses
-  // async function fetchAllExpenses() {
+  // async function fetchExpenses() {
   //   const apiData = await client.graphql({ query: listExpenses });
   //   const expensesFromAPI = apiData.data.listExpenses.items;
   //   setExpenses(expensesFromAPI);
@@ -106,11 +140,15 @@ const App = ({ signOut }) => {
 
   async function fetchExpenses(id) {
     try {
-      const apiData = await client.graphql({ query: listExpenses });
-      const expensesFiltered = apiData.data.listExpenses.items.filter((expense) => expense.monthrecordID === id);
+      const apiData = await client.graphql({ query: expensesByMonthrecordID, variables: {
+        monthrecordID: id
+      } });
+      const expensesFromAPIData = apiData.data.expensesByMonthrecordID.items;
       // SORT Expenses in Descending Order
-      expensesFiltered.sort((a,b) => new Date(b.updatedAt) - new Date(a.updatedAt));
-      setExpenses(expensesFiltered);
+      expensesFromAPIData.sort((a,b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+      if (JSON.stringify(expenses) !== JSON.stringify(expensesFromAPIData)){
+        setExpenses(expensesFromAPIData);
+      }
     } catch (exc) {
       console.log(exc);
     }
@@ -119,10 +157,17 @@ const App = ({ signOut }) => {
   async function fetchMonths() {
     try {
       const apiData = await client.graphql({ query: listMonthRecords });      
-      const expensesFromAPI = apiData.data.listMonthRecords.items;
+      const recordsFromAPI = apiData.data.listMonthRecords.items;
+
+      if(!recordsFromAPI.length){
+        return;
+      }
       // SORT Records in Descending Order
-      expensesFromAPI.sort((a,b) => new Date(b.updatedAt) - new Date(a.updatedAt));
-      setMonths(expensesFromAPI);
+      recordsFromAPI.sort((a,b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+      if (JSON.stringify(records) !== JSON.stringify(recordsFromAPI)){
+        setMonths(recordsFromAPI);
+      }
+      checkRenewStatus();
     } catch (exc) {
       console.log(exc);
     }    
@@ -130,32 +175,28 @@ const App = ({ signOut }) => {
 
   async function updateMonth(monthID) {
     try {
-      const apiData = await client.graphql({ query: expensesByMonthrecordID, variables : {
-        monthrecordID: monthID
-      }});
-      const expensesFromAPI = apiData.data.expensesByMonthrecordID.items;
-
-      let newCurrSpending;
-      for (let i=0;i<expensesFromAPI.length;i++){
-        newCurrSpending = newCurrSpending + expensesFromAPI[i].value;
+      let newCurrSpending = 0;
+      for (let i=0;i<expenses.length;i++){
+        newCurrSpending = newCurrSpending + expenses[i].value;
       }
-
       await client.graphql({ query: updateMonthRecord, variables: {
-        id: monthID,
-        currentSpending : newCurrSpending
-      } })
+        input: {
+          id: monthID,
+          currentSpending : newCurrSpending
+        }
+      }});
     } catch (exc) {
       console.log(exc);
     }
-
     fetchMonths();
   }
 
   async function deleteExpense({ id }) {
     let newExpenses = expenses.filter((expense) => expense.id === id);
-    const monthID = newExpenses[0].monthrecordID;
     newExpenses = expenses.filter((expense) => expense.id !== id);
-    setExpenses(newExpenses);
+    if (JSON.stringify(expenses) !== JSON.stringify(newExpenses)){
+      setExpenses(newExpenses);
+    }
     try {    
       await client.graphql({
         query: deleteExpenseMutation,
@@ -164,63 +205,28 @@ const App = ({ signOut }) => {
     } catch (exc) {
       console.log(exc);
     }  
-
-    updateMonth(monthID);
   }
 
   return (
     <View className="App">
       <View className="view-shelter">
-        <View className="shelter-list">
-          {records.map((record) => (
-            <View
-              key={record.id}
-              className="shelter-list-entry"
-            >
-              {/* PLACEHOLDER */}
-              <Text className="placeholder-shelter-value">
-                {getMonthState(record)}
-              </Text>
-              <SplineFloorRecord limit={record.maxSpending}  spending={record.currentSpending}/>
-            </View>
-          ))}
-        </View>
+        <ShelterList recordData={records}/> 
       </View>
       <View className="view-editor">
         <View className="editor-header">
             <Heading level={4} className="editor-header-title">Fund Shelter</Heading>
-            <Button onClick={signOut} className="editor-header-signout">Sign Out</Button>    
+            <Button id="button-signout" onClick={signOut} className="editor-header-signout">Sign Out</Button>    
         </View>
         <View className="editor-hero">
           <View className="hero-visualizer">  
-            <SplineUnderConstruction />
+            <SplineUnderConstruction recordData={records[0]}/>
           </View>
           <View className="hero-month">
             <DebugCreateMonth createMonthFunction={createMonth}/>
           </View>
         </View>        
         <View className="editor-expenses">
-          <Heading level={3}>Current Expenses</Heading>
-          <View className="expenses-list">
-            {expenses.map((expense) => (
-              <View
-                className="expenses-list-entry"
-                key={expense.id}
-              >
-                <View className="entry-text">
-                  <Text className="entry-text-value">
-                    {expense.value}
-                  </Text>
-                  <Text className="entry-text-description">
-                    {expense.description}
-                  </Text>
-                </View>                
-                <Button variation="link" className="entry-button-delete" onClick={() => deleteExpense(expense)}>
-                  Delete expense
-                </Button>
-              </View>
-            ))}
-          </View>
+          <ExpensesList expenseData={expenses} deleteExpenseFunction={deleteExpense}/> 
           <CreateExpense createExpenseFunction={createExpense}/>
         </View> 
       </View>      
