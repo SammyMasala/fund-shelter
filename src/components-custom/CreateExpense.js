@@ -25,9 +25,10 @@ export default function CreateExpense({createExpenseFunction}){
       }
     }
     return (
-        <View as="form" margin="3rem 0" role="form" onSubmit={createExpenseFunction}>
+        <View as="form" role="form" onSubmit={createExpenseFunction}>
         <Flex direction="row" justifyContent="center">
           <TextField
+            className="form-field"
             mode="numeric"
             name="value"
             placeholder="Expense Value"
@@ -40,6 +41,7 @@ export default function CreateExpense({createExpenseFunction}){
             onChange = {validateInputValue}
           />
           <TextField
+            className="form-field"
             name="description"
             placeholder="Expense Description"
             label="Expense Description"

@@ -1,6 +1,65 @@
-.App {
-  text-align: center;
+/*------ Global Properties ------*/
+/* Global Fonts */
+:root{
+  font-family: 'Trebuchet MS', sans-serif;
+  --heading-font: "Montserrat", sans-serif;
+  --nav-font: "Lato", sans-serif;
+  --animation-font: "Terminal", Courier, monospace;
 }
+
+/* Global Colours */
+:root, [palette-theme="dark"]{
+  --bg-color: #202020;
+  --bg-color-bold: #131313;
+  --text-color: #ffffff;
+  --primary-color: #047d95;
+  --secondary-color: #092635;
+  --contrast-color: #b77627;
+}
+
+[palette-theme="light"]{
+  --bg-color: #202020;
+  --bg-color-bold: #131313;
+  --text-color: #ffffff;
+  --primary-color: #047d95;
+  --secondary-color: #092635;
+  --contrast-color: #b77627;
+}
+
+[palette-theme="fallout"]{
+  --bg-color: #202020;
+  --bg-color-bold: #131313;
+  --text-color: #ffffff;
+  --primary-color: #047d95;
+  --secondary-color: #092635;
+  --contrast-color: #b77627;
+}
+
+::-webkit-scrollbar{
+  width:10px;
+  background-color: var(--bg-color);
+}
+
+::-webkit-scrollbar-thumb{
+  width:2px;
+  background-color: var(--primary-color);
+}
+
+/*------ General Settings ------*/
+
+/* App */
+.App {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+  height: 9 80px;
+}
+/* 
+.App {
+  text-shadow: 1px 1px 3px var(--bg-color-bold);
+} */
 
 .App-logo {
   height: 40vmin;
@@ -14,9 +73,7 @@
 }
 
 .App-header {
-  background-color: #282c34;
   min-height: 100vh;
-  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -25,7 +82,7 @@
 }
 
 .App-link {
-  color: #61dafb;
+  color: var(--contrast-color);
 }
 
 @keyframes App-logo-spin {
@@ -35,4 +92,225 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+/* Amplify Buttons */
+.amplify-button {
+  color: var(--default-color-text); 
+}
+
+/* Amplify Heading */
+.amplify-heading {
+  color: var(--default-color-text) !important;
+}
+
+input {
+  color: var(--default-color-text) !important;
+}
+
+/*------ Components ------*/
+
+/* View Editor/Shelter */
+.view-editor, .view-shelter{
+  box-shadow: 1px 1px 2px var(--bg-color-bold);
+}
+
+.view-editor, .view-shelter {
+  background-color: var(--bg-color-bold);
+  border-style: hidden;
+  border-color: var(--primary-color);
+  border-width: 2px;
+}
+
+.view-editor, .view-shelter {
+  padding: 25px;
+  height: 1000px;
+  margin: 25px 10px 25px 10px;
+  position: relative;
+  display: inline-flex;
+  flex-flow: column;
+}
+
+.view-editor{
+  width: 60%;
+}
+
+.view-shelter{
+  width: 35%;
+}
+
+/* Editor Header */
+.editor-header {
+  background-color: var(--bg-color);
+  flex: 0 0 50px;   
+  padding: 10px;
+  margin: 10px 5px 10px 5px;
+}
+
+.editor-header-title{
+  display: inline-block !important;
+}
+
+.editor-header-signout{
+  border-style: hidden !important;
+  border-radius: 0px !important; 
+}
+
+.editor-header-signout:hover{
+  background-color: var(--secondary-color) !important;
+  color:var(--primary-color) !important;
+}
+
+.editor-header-signout{
+  background-color: var(--primary-color) !important;
+  color: var(--default-color-text) !important;
+  height: 50px !important; 
+  padding: 2px !important; 
+  width: 20% !important;
+  top: 35px !important;
+  right: 25px !important;
+  position: absolute !important;
+}
+
+/* Editor Hero */
+.editor-hero {
+  border-style: dashed;
+  border-radius: 5px;
+  border-width: 1px;
+  border-color: var(--primary-color);
+}
+
+.editor-hero {
+  background-color: var(--bg-color);
+  flex: 0 1 350px;   
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  margin: 10px 5px 10px 5px;
+}
+
+.hero-visualizer {
+  flex: 0 1 350px;   
+  padding: 5px;
+}
+
+.suc-container{
+  display: grid;
+  height: 330px;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  font-size: x-large;
+  font-weight: 400;
+  font-family: var(--animation-font);
+}
+
+.suc-text-limit{
+  grid-area: 4/1/5/2;
+  padding: 25px;
+  margin: auto; 
+  z-index: 1000;
+} 
+
+.suc-text-expiry{
+  grid-area: 1/3/2/5;
+  padding: 25px;
+  margin: auto; 
+  z-index: 1000;
+}
+
+.suc-text-health{
+  grid-area: 4/4/5/5;
+  padding: 25px;
+  margin: auto; 
+  z-index: 1000;
+}
+
+.suc-animation{
+  grid-area: 1/1/5/5;
+}
+
+
+.hero-month {
+  background-color: var(--primary-color);
+  flex: auto;   
+  width: initial;
+  margin: 5px;
+  left: 20%;
+  height: 0;
+  position: absolute;
+  overflow: hidden;
+  padding: 10px;
+}
+
+/* Editor Expenses */
+.editor-expenses {
+  background-color: var(--bg-color);
+  margin: 10px 5px 10px 5px;
+  padding: 10px 0px 10px 0px;
+  flex: 1 0 400px;   
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+} 
+
+.expenses-list{
+  background-color: var(--bg-color-bold) !important;
+  color: var(--text-color) !important; 
+  flex: auto;
+  margin: 5px !important;
+  padding: 15px;
+  overflow-y: auto;
+}
+
+.expenses-list-entry {
+  background-color: var(--bg-color);
+  height: 60px; 
+  display: flex;
+  flex-direction: row;
+  margin: 5px 0px 5px 0px;
+  padding: 5px;
+}
+
+.entry-text {
+  flex: auto;
+}
+
+.entry-text-value, .entry-text-description{
+  color: var(--text-color) !important;
+  text-align: left !important;
+  margin: auto !important;
+  padding-left: 10px !important;
+}
+
+.entry-text-value {
+  font-weight: bold !important;
+}
+
+.entry-text-description {
+  font-style: italic !important;
+} 
+
+.entry-button-delete {
+  flex: 0 1 100px;
+}
+
+
+/* Shelter List */
+.shelter-list {
+  flex: 1 0 700px;
+  margin: 5px;
+  padding: 15px;
+  overflow: auto;
+}
+
+.shelter-list-entry {
+  background-color: var(--bg-color);
+  height: 200px; 
+  margin: 25px 0px 25px 0px;
+  padding: 0px;
+}
+
+.placeholder-shelter-value {
+  color: var(--text-color) !important;
+  margin: auto;
 }
