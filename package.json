@@ -29,6 +29,10 @@
       "react-app/jest"
     ]
   },
+  "jest": {
+    "preset": "fund-shelter",
+    "transformIgnorePatterns": ["node_modules\/(?!@splinetool)"]
+  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -42,6 +46,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/preset-typescript": "^7.23.3",
     "@testing-library/dom": "^9.3.4",
     "@testing-library/jest-dom": "^6.2.0",
     "@testing-library/react": "^14.1.2",
