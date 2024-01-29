@@ -8,7 +8,7 @@ import {
   View,
   withAuthenticator,
 } from "@aws-amplify/ui-react";
-import { CreateExpense, DebugCreateMonth } from './components-custom/'
+import { CreateExpense, DebugCreateMonth, SplineUnderConstruction, SplineFloorRecord } from './components-custom/'
 import { listExpenses, expensesByMonthrecordID, listMonthRecords } from "./graphql/queries";
 import {
   updateMonthRecord,
@@ -95,10 +95,8 @@ const App = ({ signOut }) => {
 
     const state = current/limit*100;
     //Return state is PLACEHOLDER
-    if (state < 50) {
+    if (state < 75) {
       return "Healthy";
-    }else if (state < 75) {
-      return "Danger";
     }else if (state < 100) {
       return "Critical";
     } else {
@@ -183,6 +181,7 @@ const App = ({ signOut }) => {
               <Text className="placeholder-shelter-value">
                 {getMonthState(record)}
               </Text>
+              <SplineFloorRecord limit={record.maxSpending}  spending={record.currentSpending}/>
             </View>
           ))}
         </View>
@@ -193,7 +192,8 @@ const App = ({ signOut }) => {
             <Button onClick={signOut} className="editor-header-signout">Sign Out</Button>    
         </View>
         <View className="editor-hero">
-          <View className="hero-visualizer">          
+          <View className="hero-visualizer">  
+            <SplineUnderConstruction />
           </View>
           <View className="hero-month">
             <DebugCreateMonth createMonthFunction={createMonth}/>
