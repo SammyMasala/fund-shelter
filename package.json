@@ -20,7 +20,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --transformIgnorePatterns \"node_modules/(?!@splinetool/react-spline)/\" --env=jsdom",
+    "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -28,10 +28,6 @@
       "react-app",
       "react-app/jest"
     ]
-  },
-  "jest": {
-    "preset": "fund-shelter",
-    "transformIgnorePatterns": ["node_modules\/(?!@splinetool)"]
   },
   "browserslist": {
     "production": [
@@ -53,6 +49,7 @@
     "@testing-library/user-event": "^14.5.2",
     "babel-plugin-syntax-class-properties": "^6.13.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
+    "canvas": "^2.11.2",
     "identity-obj-proxy": "^3.0.0"
   }
 }
