@@ -1,61 +1,65 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
-  Text,
   View,
 } from "@aws-amplify/ui-react";
 
 import Spline from '@splinetool/react-spline';
 
 export default function SplineUnderConstruction({recordData}) {
-    function getDaysToRenew(){
+    function printDaysToRenew(){
         if(!recordData){
             return;
         }
         const dateNow = new Date();
         let daysToNextMonth = 0;
-        while (new Date(dateNow.setDate(dateNow.getDate() + daysToNextMonth)).getMonth() == new Date().getMonth()){
+        while (new Date(dateNow.setDate(dateNow.getDate() + daysToNextMonth)).getMonth() === new Date().getMonth()){
             daysToNextMonth ++;
         }
         return "new Floor in: " + daysToNextMonth + " days";
     }  
-    function getSpendingLimit(){
+    function printSpendingLimit(){
         if(!recordData){
             return;
         }
-        return "Max Spending: " + recordData.maxSpending;
+        return "Max Spending: " + recordData.maxSpending + "$";
     }
-    function getCurrentHealth(){
+
+    function getRemainingFunds(){
         if(!recordData){
             return;
         }
         
-        let currentHealth = (recordData.maxSpending-recordData.currentSpending)/recordData.maxSpending*100;
-        console.log(currentHealth);
-        if(currentHealth < 0){
-            currentHealth = 0; 
+        let remainingFunds = recordData.maxSpending-recordData.currentSpending
+        if(remainingFunds < 0){
+            remainingFunds = 0; 
         }
-        return "Current Health: " + currentHealth + "%";
+        return remainingFunds;
     }
-    function getAnimationURL(){
+
+    function printRemainingFunds(){
+        const remainingFunds = getRemainingFunds();
+        return "Funds Remaining: " + remainingFunds + "$";
+    }
+
+    function printAnimationURL(){
         if(!recordData){
             return "https://prod.spline.design/1PR6G908oxE1Y5tj/scene.splinecode";
-        }
-        
-        let currentHealth = (recordData.maxSpending-recordData.currentSpending)/recordData.maxSpending*100;
+        }        
+        const currentHealth = getRemainingFunds()/recordData.maxSpending*100;
         if(currentHealth > 35){
             return "https://prod.spline.design/1PR6G908oxE1Y5tj/scene.splinecode";
         }else{
             return "https://prod.spline.design/Ac0ObXslZo85bYlL/scene.splinecode";
         }
     }
-
+    
 
     return (
         <View className="suc-container">
-            <View className="suc-text-limit">{getSpendingLimit()}</View>
-            <View className="suc-text-expiry">{getDaysToRenew()}</View>
-            <View className="suc-text-health">{getCurrentHealth()}</View>
-            <Spline className="suc-animation" scene={getAnimationURL()} />
+            <View className="suc-text-limit">{printSpendingLimit()}</View>
+            <View className="suc-text-expiry">{printDaysToRenew()}</View>
+            <View className="suc-text-remaining">{printRemainingFunds()}</View>
+            <Spline className="suc-animation" scene={printAnimationURL()} />
         </View> 
     );
 }

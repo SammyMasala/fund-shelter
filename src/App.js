@@ -9,8 +9,9 @@ import {
 import { ExpensesList, 
   ShelterList,
   CreateExpense, 
-  DebugCreateMonth, 
+  // DebugCreateMonth, 
   SplineUnderConstruction, 
+  UpdateMonthSettings,
 } from './components-custom/'
 import { expensesByMonthrecordID, listMonthRecords } from "./graphql/queries";
 import {
@@ -32,21 +33,24 @@ const App = ({ signOut }) => {
 
   useEffect(() => {
     fetchMonths();
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
     updateMonth(getLatestMonthID());
+    // eslint-disable-next-line
   }, [expenses])
 
   useEffect(() => {
     fetchExpenses(getLatestMonthID());
+    // eslint-disable-next-line
   }, [records])
 
   function checkRenewStatus() {
     if(!records.length){
       return;
     }
-    const cmpDate = (new Date().getFullYear() == new Date(records[0]).getFullYear()) && (new Date().getMonth() == new Date(records[0]).getMonth());   
+    const cmpDate = (new Date().getFullYear() === new Date(records[0]).getFullYear()) && (new Date().getMonth() === new Date(records[0]).getMonth());   
     if(cmpDate){
       renewMonth();
     }    
@@ -91,13 +95,7 @@ const App = ({ signOut }) => {
     fetchExpenses(getLatestMonthID());
   }
 
-  async function createMonth(event) {
-    event.preventDefault();
-    const form = new FormData(event.target);
-    const data = {
-      maxSpending: form.get("value"),
-      currentSpending: 0,
-    }
+  async function createMonth(data) {
     try {
       await client.graphql({
         query: createMonthMutation,
@@ -108,7 +106,6 @@ const App = ({ signOut }) => {
     }    
     fetchMonths();
     fetchExpenses(getLatestMonthID());
-    event.target.reset();
   } 
 
   //DEBUG: View All Expenses
@@ -122,20 +119,6 @@ const App = ({ signOut }) => {
     if(records[0]){
       return records[0].id;
     }
-  }
-  function getMonthState(record){
-    const limit = record.maxSpending;
-    const current = record.currentSpending;
-
-    const state = current/limit*100;
-    //Return state is PLACEHOLDER
-    if (state < 75) {
-      return "Healthy";
-    }else if (state < 100) {
-      return "Critical";
-    } else {
-      return "Exceeded"
-    }      
   }
 
   async function fetchExpenses(id) {
@@ -182,7 +165,7 @@ const App = ({ signOut }) => {
       await client.graphql({ query: updateMonthRecord, variables: {
         input: {
           id: monthID,
-          currentSpending : newCurrSpending
+          currentSpending: newCurrSpending
         }
       }});
     } catch (exc) {
@@ -191,9 +174,60 @@ const App = ({ signOut }) => {
     fetchMonths();
   }
 
+  async function updateLatestMonth(event) {
+    event.preventDefault();
+    const monthID = getLatestMonthID();
+
+    const form = new FormData(event.target);
+    console.log(form.get("value"));
+    try {
+      let newCurrSpending = 0;
+      for (let i=0;i<expenses.length;i++){
+        newCurrSpending = newCurrSpending + expenses[i].value;
+      }
+      await client.graphql({ query: updateMonthRecord, variables: {
+        input: {
+          id: monthID,
+          maxSpending: form.get("value")
+        }
+      }});
+    } catch (exc) {
+      console.log(exc);
+    }
+    fetchMonths();
+    event.target.reset();
+  }
+
+  function resetLatestMonth(event) {
+    event.preventDefault();
+    console.log("test");
+    const form = new FormData(event.target);
+    const data = {
+      maxSpending: form.get("value"),
+      currentSpending: 0,
+    }
+    deleteMonth(getLatestMonthID());
+    createMonth(data);
+    event.target.reset();
+  }
+
+  async function deleteMonth({ id }) {
+    let newRecords = records.filter((record) => record.id !== id);
+    if (JSON.stringify(records) !== JSON.stringify(newRecords)){
+      setMonths(newRecords);
+    }
+    try {    
+      await client.graphql({
+        query: deleteExpenseMutation,
+        variables: { input: { id } },
+      });
+    } catch (exc) {
+      console.log(exc);
+    }  
+  }
+
   async function deleteExpense({ id }) {
-    let newExpenses = expenses.filter((expense) => expense.id === id);
-    newExpenses = expenses.filter((expense) => expense.id !== id);
+    const newExpenses = expenses.filter((expense) => expense.id !== id);
     if (JSON.stringify(expenses) !== JSON.stringify(newExpenses)){
       setExpenses(newExpenses);
     }
@@ -220,10 +254,10 @@ const App = ({ signOut }) => {
         <View className="editor-hero">
           <View className="hero-visualizer">  
             <SplineUnderConstruction recordData={records[0]}/>
-          </View>
+          </View>    
           <View className="hero-month">
-            <DebugCreateMonth createMonthFunction={createMonth}/>
-          </View>
+            <UpdateMonthSettings updateFunction={updateLatestMonth} resetFunction={resetLatestMonth}/>
+          </View>      
         </View>        
         <View className="editor-expenses">
           <ExpensesList expenseData={expenses} deleteExpenseFunction={deleteExpense}/> 
