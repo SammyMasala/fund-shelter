@@ -13,6 +13,7 @@ import { ExpensesList,
   // DebugCreateMonth, 
   SplineUnderConstruction, 
   UpdateMonthSettings,
+  TutorialOverlay,
 } from './components-custom/'
 import { expensesByMonthrecordID, listMonthRecords } from "./graphql/queries";
 import {
@@ -81,9 +82,10 @@ const App = ({ signOut }) => {
     event.target.reset();
   }
 
-  async function renewMonth() {
+  async function renewMonth() {    
+    const previousLimit = records[0].maxSpending
     const data = {
-      maxSpending: records[0].maxSpending,
+      maxSpending: previousLimit,
       currentSpending: 0,
     }
     try {
@@ -99,6 +101,9 @@ const App = ({ signOut }) => {
   }
 
   async function createMonth(data) {
+    if(records.length && (new Date().getMonth() === new Date(records[0].createdAt).getMonth())){
+      return;
+    }
     try {
       await client.graphql({
         query: createMonthMutation,
@@ -146,7 +151,6 @@ const App = ({ signOut }) => {
       const recordsFromAPI = apiData.data.listMonthRecords.items;
 
       if(!recordsFromAPI.length){
-        checkRenewStatus()
         return;
       }
       // SORT Records in Descending Order
@@ -180,6 +184,15 @@ const App = ({ signOut }) => {
 
   async function updateLatestMonth(monthData) {
     const monthID = getLatestMonthID();
+    if(!monthID){
+      // New Month data
+      const newMonthData = {
+        maxSpending: monthData.maxSpending,
+        currentSpending: 0
+      }
+      createMonth(newMonthData);
+      return;
+    }
     try {
       let newCurrSpending = 0;
       for (let i=0;i<expenses.length;i++){
@@ -236,6 +249,19 @@ const App = ({ signOut }) => {
     }  
   }
 
+  function toggleTutorialOverlay(){
+    const tutorialElement = document.getElementsByClassName("tutorial-step");
+    if(tutorialElement && tutorialElement[0].classList.contains("visible")){
+      for(let i=0;i<tutorialElement.length;i++){
+        tutorialElement[i].classList.remove("visible");
+      }
+    }else if(tutorialElement && !tutorialElement[0].classList.contains("visible")){
+      for(let i=0;i<tutorialElement.length;i++){
+        tutorialElement[i].classList.add("visible");
+      }
+    }
+  }
+
   function monthToggleClicked(event){
     const btnElement = event.target;
     const updateMonthElement = document.getElementsByClassName("hero-month");
@@ -257,13 +283,23 @@ const App = ({ signOut }) => {
       overflow="hidden" 
     >
       <Grid 
-        className="editor-header"
+        className="App-header"
         templateRows="1fr"
         templateColumns="1fr 1fr 1fr 1fr"
         margin="auto"
         width="95vw"
         flex="auto"
       >
+        <Button 
+          className="editor-header-signout"
+          columnStart="1"
+          columnEnd="2"
+          margin="auto"
+          id="button-signout" 
+          onClick={toggleTutorialOverlay} 
+        >
+          ?
+        </Button>  
         <Heading 
           className="editor-header-title"
           level={4} 
@@ -284,77 +320,90 @@ const App = ({ signOut }) => {
           Sign Out
         </Button>    
       </Grid>
-      <Flex className="views"
-        direction="row"
-        gap="10px"
-        wrap="nowrap"
-        width="100vw"
-        overflow ="auto" 
+      <View 
+        className="App-content"
+        flex="auto"
+        overflow="auto"
       >
-        <Flex 
-          className="view-editor"
-          direction="column"
-          flex="1 0 475px"
-          height="100vh"
-          margin="5px"
-          overflow="auto"
+        <Grid 
+          className="views"
+          direction="row"
+          templateRows="repeat(6, 1fr)"
+          templateColumns="repeat(6, 1fr)"
+          width="1920px"
         >
-          <Grid 
-            className="editor-hero"
-            templateColumns="1fr 1fr 1fr 1fr"
-            templateRows="1fr 1fr 1fr 1fr"
-            height="35vh"
-            margin="0px 10px 0px 10px"
-          >
-            <View 
-              className="hero-visualizer"
-              columnStart="1"
-              columnEnd="5"
-              rowStart="1"
-              rowEnd="5"
-            >  
-              <SplineUnderConstruction recordData={records[0]}/>
-            </View>    
-            <Button  
-              className="hero-month-toggle"
-              rowStart="1"
-              rowEnd="2"
-              columnStart="4"
-              columnEnd="5"
-              margin="10px"
-              onClick={monthToggleClicked}
-            >Set</Button>
-            <View 
-              className="hero-month"
-              columnStart="1"
-              columnEnd="5"
-              rowStart="2"
-              rowEnd="4"
-            >           
-              <UpdateMonthSettings updateFunction={updateLatestMonth} resetFunction={resetLatestMonth}/>
-            </View>      
-          </Grid>        
-          <View 
-            className="editor-expenses"
+          <TutorialOverlay />
+          <Flex 
+            className="view-editor"
             direction="column"
-            flex="1 0 200px"
-            margin="0px 10px 10px 10px"
+            columnStart="1"
+            columnEnd="4"
+            rowStart="1"
+            rowEnd="7"
+            height="100vh"
+            margin="5px"
+            overflow="auto"
           >
-            <ExpensesList expenseData={expenses} deleteExpenseFunction={deleteExpense}/> 
-            <CreateExpense createExpenseFunction={createExpense}/>
-          </View> 
-        </Flex>  
-        <Flex 
-          className="view-shelter"
-          direction="column"
-          flex="1 0 475px"
-          height="100vh"
-          margin="5px"
-          overflow="auto"
-        >
-          <ShelterList recordData={records}/> 
-        </Flex>    
-      </Flex>
+            <Grid 
+              className="editor-hero"
+              templateColumns="1fr 1fr 1fr 1fr"
+              templateRows="1fr 1fr 1fr 1fr"
+              height="35vh"
+              margin="0px 10px 0px 10px"
+            >
+              <View 
+                className="hero-visualizer"
+                columnStart="1"
+                columnEnd="5"
+                rowStart="1"
+                rowEnd="5"
+              >  
+                <SplineUnderConstruction recordData={records[0]}/>
+              </View>    
+              <Button  
+                className="hero-month-toggle"
+                rowStart="1"
+                rowEnd="2"
+                columnStart="4"
+                columnEnd="5"
+                margin="10px"
+                onClick={monthToggleClicked}
+              >Set</Button>
+              <View 
+                className="hero-month"
+                columnStart="1"
+                columnEnd="5"
+                rowStart="2"
+                rowEnd="4"
+              >           
+                <UpdateMonthSettings updateFunction={updateLatestMonth} resetFunction={resetLatestMonth}/>
+              </View>      
+            </Grid>        
+            <View 
+              className="editor-expenses"
+              direction="column"
+              flex="1 0 200px"
+              margin="0px 10px 10px 10px"
+            >
+              <ExpensesList expenseData={expenses} deleteExpenseFunction={deleteExpense}/> 
+              <CreateExpense createExpenseFunction={createExpense}/>
+            </View> 
+          </Flex>  
+          <Flex 
+            className="view-shelter"
+            direction="column"
+            columnStart="4"
+            columnEnd="7"
+            rowStart="1"
+            rowEnd="7"
+            height="100vh"
+            margin="5px"
+            overflow="auto"
+          >
+            <ShelterList recordData={records}/> 
+          </Flex>    
+        </Grid>
+      </View>      
     </Flex>
   );
 };

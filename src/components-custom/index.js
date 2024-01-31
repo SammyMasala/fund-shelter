@@ -5,6 +5,7 @@ import SplineFloorRecord from "./SplineFloorRecord";
 import ExpensesList from "./ExpensesList";
 import ShelterList from "./ShelterList";
 import UpdateMonthSettings from "./UpdateMonthSettings";
+import TutorialOverlay from "./TutorialOverlay";
 
-export {ExpensesList, ShelterList};
+export {ExpensesList, ShelterList, TutorialOverlay};
 export {CreateExpense, DebugCreateMonth, UpdateMonthSettings, SplineUnderConstruction, SplineFloorRecord};
