@@ -22,10 +22,20 @@ export default function CreateExpense({createExpenseFunction}){
       }
     }
     return (
-        <View as="form" role="form" onSubmit={createExpenseFunction}>
-        <Flex direction="row" justifyContent="center">
+        <Flex 
+          direction="row" 
+          justifyContent="center"
+          as="form" 
+          role="form" 
+          rowStart="4"
+          rowEnd="5"
+          margin="10px"
+          height="50px"
+          onSubmit={createExpenseFunction}
+        >
           <TextField
             className="form-field"
+            margin="0px"
             mode="numeric"
             name="value"
             placeholder="Expense Value"
@@ -37,6 +47,7 @@ export default function CreateExpense({createExpenseFunction}){
           />
           <TextField
             className="form-field"
+            margin="0px"
             name="description"
             placeholder="Expense Description"
             label="Expense Description"
@@ -48,6 +59,5 @@ export default function CreateExpense({createExpenseFunction}){
             Create Expense
           </Button>
         </Flex>
-      </View>
     );
 }

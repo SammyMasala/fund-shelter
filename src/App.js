@@ -3,8 +3,8 @@ import {
   Button,
   Heading,
   View,
-  Image,
   withAuthenticator,
+  Flex,
   Grid,
 } from "@aws-amplify/ui-react";
 import { ExpensesList, 
@@ -250,37 +250,105 @@ const App = ({ signOut }) => {
   }
 
   return (
-    <View className="App">
-      <View className="view-shelter">
+    <Flex 
+      className="App"
+      direction="row"
+      gap="10px"
+      wrap="nowrap"
+      width="100vw"
+      overflow-x ="hidden" 
+      overflow-y ="auto"
+    >
+      <Flex 
+        className="view-shelter"
+        direction="column"
+        flex="1 0 500px"
+        height="100vh"
+        margin="5px"
+        overflow="auto"
+      >
         <ShelterList recordData={records}/> 
-      </View>
-      <View className="view-editor">
-        <View className="editor-header">
-            <Heading level={4} className="editor-header-title">Fund Shelter</Heading>
-            <Button id="button-signout" onClick={signOut} className="editor-header-signout">Sign Out</Button>    
-        </View>
+      </Flex>
+      <Flex 
+        className="view-editor"
+        direction="column"
+        flex="1 0 500px"
+        height="100vh"
+        margin="5px"
+        overflow="auto"
+      >
+        <Grid 
+          className="editor-header"
+          templateRows="1fr"
+          templateColumns="1fr 1fr 1fr 1fr"
+          margin="10px 10px 0px 10px"
+          flex="0 0 30px"
+        >
+            <Heading 
+              className="editor-header-title"
+              level={4} 
+              columnStart="2"
+              columnEnd="4"
+              margin="auto"
+            >
+              Fund Shelter
+            </Heading>
+            <Button 
+              className="editor-header-signout"
+              columnStart="4"
+              columnEnd="5"
+              id="button-signout" 
+              onClick={signOut} 
+            >
+              Sign Out
+            </Button>    
+        </Grid>
         <Grid 
           className="editor-hero"
           templateColumns="1fr 1fr 1fr 1fr"
           templateRows="1fr 1fr 1fr 1fr"
+          flex="1 1 100px"
+          margin="0px 10px 0px 10px"
         >
-          <View className="hero-visualizer">  
+          <View 
+            className="hero-visualizer"
+            columnStart="1"
+            columnEnd="5"
+            rowStart="1"
+            rowEnd="5"
+          >  
             <SplineUnderConstruction recordData={records[0]}/>
           </View>    
           <Button  
             className="hero-month-toggle"
+            rowStart="1"
+            rowEnd="2"
+            columnStart="4"
+            columnEnd="5"
+            margin="10px"
             onClick={monthToggleClicked}
           >Set</Button>
-          <View className="hero-month">
+          <View 
+            className="hero-month"
+            columnStart="1"
+            columnEnd="5"
+            rowStart="2"
+            rowEnd="5"
+          >           
             <UpdateMonthSettings updateFunction={updateLatestMonth} resetFunction={resetLatestMonth}/>
           </View>      
         </Grid>        
-        <View className="editor-expenses">
+        <View 
+          className="editor-expenses"
+          direction="column"
+          flex="auto"
+          margin="0px 10px 10px 10px"
+        >
           <ExpensesList expenseData={expenses} deleteExpenseFunction={deleteExpense}/> 
           <CreateExpense createExpenseFunction={createExpense}/>
         </View> 
-      </View>      
-    </View>
+      </Flex>      
+    </Flex>
   );
 };
 

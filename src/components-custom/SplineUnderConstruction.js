@@ -1,6 +1,7 @@
 import React from "react";
 import {
   View,
+  Grid,
 } from "@aws-amplify/ui-react";
 
 import Spline from '@splinetool/react-spline';
@@ -19,7 +20,7 @@ export default function SplineUnderConstruction({recordData}) {
     }  
     function printSpendingLimit(){
         if(!recordData){
-            return;
+            return "Max Spending: 0$";
         }
         return "Max Spending: " + recordData.maxSpending + "$";
     }
@@ -55,11 +56,49 @@ export default function SplineUnderConstruction({recordData}) {
     
 
     return (
-        <View className="suc-container">
-            <View className="suc-text-limit">{printSpendingLimit()}</View>
-            <View className="suc-text-expiry">{printDaysToRenew()}</View>
-            <View className="suc-text-remaining">{printRemainingFunds()}</View>
-            <Spline className="suc-animation" scene={printAnimationURL()} />
-        </View> 
+        <Grid 
+            className="suc-container"
+            rowStart="1"
+            columnStart="1"
+            rowEnd="5"
+            columnEnd="5"
+            templateColumns="1fr 1fr 1fr 1fr"
+            templateRows="1fr 1fr 1fr 1fr"
+        >
+            <View 
+                className="suc-text-limit"
+                columnStart="1"
+                columnEnd="3"
+                rowStart="4"
+                rowEnd="5"
+                margin="auto"
+            >
+                {printSpendingLimit()}
+            </View>
+            <View 
+                className="suc-text-expiry"
+                columnStart="2"
+                columnEnd="4"
+                rowStart="1"
+                rowEnd="2"
+                margin="auto"
+            >
+                {printDaysToRenew()}
+            </View>
+            <View 
+                className="suc-text-remaining"
+                columnStart="3"
+                columnEnd="5"
+                rowStart="4"
+                rowEnd="5"
+                margin="auto"
+            >
+                {printRemainingFunds()}
+            </View>
+            <Spline 
+                className="suc-animation" 
+                scene={printAnimationURL()} 
+            />
+        </Grid> 
     );
 }
