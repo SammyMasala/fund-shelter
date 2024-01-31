@@ -45,14 +45,18 @@
   background-color: var(--primary-color);
 }
 
+:root{
+  background-color: var(--bg-color);
+  width: 100vw;
+  overflow: hidden;
+}
+
 /*------ General Settings ------*/
 
 /* App */
 .App {
   background-color: var(--bg-color);
   color: var(--text-color);
-  display: flex;
-  flex-direction: row;
   text-align: center;
 }
 /* 
@@ -138,19 +142,18 @@ input {
 
 /* Editor Hero */
 .editor-hero {
-  border-style: dashed;
-  border-radius: 5px;
-  border-width: 1px;
-  border-color: var(--primary-color);
-}
-
-.editor-hero {
   background-color: var(--bg-color);
 }
 
 .suc-container {
-  position: relative; 
+  border-style: dashed;
+  border-width: 1px;
+  border-color: var(--primary-color);
+}
+
+.suc-container {
   font-family: var(--animation-font);
+  height: 35vh;
 }
 
 .suc-text-limit {
@@ -167,8 +170,6 @@ input {
 
 .suc-animation {
   grid-area: 1/1/5/5;
-  margin: auto;
-  width: 90% !important;
 }
 
 .hero-month {

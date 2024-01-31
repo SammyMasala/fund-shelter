@@ -252,102 +252,109 @@ const App = ({ signOut }) => {
   return (
     <Flex 
       className="App"
-      direction="row"
-      gap="10px"
-      wrap="nowrap"
+      direction="column"
       width="100vw"
-      overflow-x ="hidden" 
-      overflow-y ="auto"
+      overflow="hidden" 
     >
-      <Flex 
-        className="view-shelter"
-        direction="column"
-        flex="1 0 500px"
-        height="100vh"
-        margin="5px"
-        overflow="auto"
+      <Grid 
+        className="editor-header"
+        templateRows="1fr"
+        templateColumns="1fr 1fr 1fr 1fr"
+        margin="auto"
+        width="95vw"
+        flex="auto"
       >
-        <ShelterList recordData={records}/> 
-      </Flex>
-      <Flex 
-        className="view-editor"
-        direction="column"
-        flex="1 0 500px"
-        height="100vh"
-        margin="5px"
-        overflow="auto"
-      >
-        <Grid 
-          className="editor-header"
-          templateRows="1fr"
-          templateColumns="1fr 1fr 1fr 1fr"
-          margin="10px 10px 0px 10px"
-          flex="0 0 30px"
+        <Heading 
+          className="editor-header-title"
+          level={4} 
+          columnStart="2"
+          columnEnd="4"
+          margin="auto"
         >
-            <Heading 
-              className="editor-header-title"
-              level={4} 
-              columnStart="2"
-              columnEnd="4"
-              margin="auto"
-            >
-              Fund Shelter
-            </Heading>
-            <Button 
-              className="editor-header-signout"
+          Fund Shelter
+        </Heading>
+        <Button 
+          className="editor-header-signout"
+          columnStart="4"
+          columnEnd="5"
+          margin="auto"
+          id="button-signout" 
+          onClick={signOut} 
+        >
+          Sign Out
+        </Button>    
+      </Grid>
+      <Flex className="views"
+        direction="row"
+        gap="10px"
+        wrap="nowrap"
+        width="100vw"
+        overflow ="auto" 
+      >
+        <Flex 
+          className="view-editor"
+          direction="column"
+          flex="1 0 475px"
+          height="100vh"
+          margin="5px"
+          overflow="auto"
+        >
+          <Grid 
+            className="editor-hero"
+            templateColumns="1fr 1fr 1fr 1fr"
+            templateRows="1fr 1fr 1fr 1fr"
+            height="35vh"
+            margin="0px 10px 0px 10px"
+          >
+            <View 
+              className="hero-visualizer"
+              columnStart="1"
+              columnEnd="5"
+              rowStart="1"
+              rowEnd="5"
+            >  
+              <SplineUnderConstruction recordData={records[0]}/>
+            </View>    
+            <Button  
+              className="hero-month-toggle"
+              rowStart="1"
+              rowEnd="2"
               columnStart="4"
               columnEnd="5"
-              id="button-signout" 
-              onClick={signOut} 
-            >
-              Sign Out
-            </Button>    
-        </Grid>
-        <Grid 
-          className="editor-hero"
-          templateColumns="1fr 1fr 1fr 1fr"
-          templateRows="1fr 1fr 1fr 1fr"
-          flex="1 1 100px"
-          margin="0px 10px 0px 10px"
-        >
+              margin="10px"
+              onClick={monthToggleClicked}
+            >Set</Button>
+            <View 
+              className="hero-month"
+              columnStart="1"
+              columnEnd="5"
+              rowStart="2"
+              rowEnd="4"
+            >           
+              <UpdateMonthSettings updateFunction={updateLatestMonth} resetFunction={resetLatestMonth}/>
+            </View>      
+          </Grid>        
           <View 
-            className="hero-visualizer"
-            columnStart="1"
-            columnEnd="5"
-            rowStart="1"
-            rowEnd="5"
-          >  
-            <SplineUnderConstruction recordData={records[0]}/>
-          </View>    
-          <Button  
-            className="hero-month-toggle"
-            rowStart="1"
-            rowEnd="2"
-            columnStart="4"
-            columnEnd="5"
-            margin="10px"
-            onClick={monthToggleClicked}
-          >Set</Button>
-          <View 
-            className="hero-month"
-            columnStart="1"
-            columnEnd="5"
-            rowStart="2"
-            rowEnd="5"
-          >           
-            <UpdateMonthSettings updateFunction={updateLatestMonth} resetFunction={resetLatestMonth}/>
-          </View>      
-        </Grid>        
-        <View 
-          className="editor-expenses"
+            className="editor-expenses"
+            direction="column"
+            flex="1 0 200px"
+            margin="0px 10px 10px 10px"
+          >
+            <ExpensesList expenseData={expenses} deleteExpenseFunction={deleteExpense}/> 
+            <CreateExpense createExpenseFunction={createExpense}/>
+          </View> 
+        </Flex>  
+        <Flex 
+          className="view-shelter"
           direction="column"
-          flex="auto"
-          margin="0px 10px 10px 10px"
+          flex="1 0 475px"
+          height="100vh"
+          margin="5px"
+          overflow="auto"
         >
-          <ExpensesList expenseData={expenses} deleteExpenseFunction={deleteExpense}/> 
-          <CreateExpense createExpenseFunction={createExpense}/>
-        </View> 
-      </Flex>      
+          <ShelterList recordData={records}/> 
+        </Flex>    
+      </Flex>
     </Flex>
   );
 };

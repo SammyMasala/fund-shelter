@@ -1,10 +1,8 @@
 import React from "react";
 import {
   Button,
-  CheckboxField,
   Grid,
   TextField,
-  View,
 } from "@aws-amplify/ui-react";
 
 if (process.env.NODE_ENV !== 'test') {
@@ -49,13 +47,13 @@ export default function UpdateMonthSettings({updateFunction, resetFunction}){
           <TextField
             columnStart="1"
             columnEnd="3"
-            // columnEnd="2"
             rowStart="1"
             rowEnd="2"
+            padding="0px 15px 0px 15px"
             mode="numeric"
             name="value"
             placeholder="Spending Limit"
-            label="Max Spending"
+            label="Max Spending:"
             variation="quiet"
             required
             onChange = {validateInputValue}
@@ -77,7 +75,7 @@ export default function UpdateMonthSettings({updateFunction, resetFunction}){
             columnEnd="3"
             rowStart="2"
             rowEnd="3"
-            margin="10px"
+            margin="20px"
             type="submit" 
             variation="primary" 
             disabled={isDisabled}

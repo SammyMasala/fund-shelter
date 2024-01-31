@@ -3,7 +3,6 @@ import {
   Button,
   Flex,
   TextField,
-  View,
 } from "@aws-amplify/ui-react";
 
 if (process.env.NODE_ENV !== 'test') {
