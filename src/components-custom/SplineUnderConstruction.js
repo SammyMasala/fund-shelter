@@ -8,7 +8,7 @@ import Spline from '@splinetool/react-spline';
 export default function SplineUnderConstruction({recordData}) {
     function printDaysToRenew(){
         if(!recordData){
-            return;
+            return "No Records Found. New USER? Click Set ->";
         }
         const dateNow = new Date();
         let daysToNextMonth = 0;

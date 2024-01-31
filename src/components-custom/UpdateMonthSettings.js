@@ -1,7 +1,8 @@
 import React from "react";
 import {
   Button,
-  Flex,
+  CheckboxField,
+  Grid,
   TextField,
   View,
 } from "@aws-amplify/ui-react";
@@ -24,31 +25,65 @@ export default function UpdateMonthSettings({updateFunction, resetFunction}){
 
     function submitFunction(event){
       event.preventDefault();
-      console.log(event.value);
-      event.target.reset();
+      const form = new FormData(event.target);
+      const isReset = form.get("reset");
+      const data = {
+        maxSpending: form.get("value"),        
+      }
+      if(!isReset){
+        updateFunction(data);
+      }else{
+        updateFunction(data);
+        // resetFunction(data);
+      }
     }
 
     return (
-        <View as="form" name={new Date().toLocaleDateString()} onSubmit={submitFunction} role="form">
-        <Flex direction="row" justifyContent="center">
+        <Grid 
+          as="form" 
+          role="form"
+          templateRows="1fr 1fr"
+          templateColumns="1fr 1fr"
+          onSubmit={submitFunction}
+        >
           <TextField
-            className="form-field"
+            columnStart="1"
+            columnEnd="3"
+            // columnEnd="2"
+            rowStart="1"
+            rowEnd="2"
             mode="numeric"
             name="value"
             placeholder="Spending Limit"
             label="Max Spending"
-            labelHidden
             variation="quiet"
             required
             onChange = {validateInputValue}
           />
-          <Button type="submit" variation="primary" value="Update" disabled={isDisabled}>
-            UPDATE (Keeps existing expenses)
+          {/* <CheckboxField
+            columnStart="2"
+            columnEnd="3"
+            rowStart="1"
+            rowEnd="2"
+            color="#FF0000"
+            margin="5px 25px 5px 25px"
+            label="Reset: Deletes current month"
+            name="reset"
+            value="yes"
+            size="large"
+          /> */}
+          <Button 
+            columnStart="1"
+            columnEnd="3"
+            rowStart="2"
+            rowEnd="3"
+            margin="10px"
+            type="submit" 
+            variation="primary" 
+            disabled={isDisabled}
+          >
+            UPDATE
           </Button>
-          <Button type="submit" variation="primary" value="Reset" disabled={isDisabled}>
-            RESET (Starts a new month. All current data is deleted)
-          </Button>
-        </Flex>
-      </View>
+      </Grid>
     );
 }

@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import "./App.css";
 import {
   Button,
   Heading,
   View,
+  Image,
   withAuthenticator,
+  Grid,
 } from "@aws-amplify/ui-react";
 import { ExpensesList, 
   ShelterList,
@@ -24,7 +25,9 @@ import {
 import { generateClient } from "@aws-amplify/api";
 if (process.env.NODE_ENV !== 'test') {
   import ('@aws-amplify/ui-react/styles.css');
+  import ("./App.css");
 }
+
 const client = generateClient();
 
 const App = ({ signOut }) => {
@@ -143,6 +146,7 @@ const App = ({ signOut }) => {
       const recordsFromAPI = apiData.data.listMonthRecords.items;
 
       if(!recordsFromAPI.length){
+        checkRenewStatus()
         return;
       }
       // SORT Records in Descending Order
@@ -174,12 +178,8 @@ const App = ({ signOut }) => {
     fetchMonths();
   }
 
-  async function updateLatestMonth(event) {
-    event.preventDefault();
+  async function updateLatestMonth(monthData) {
     const monthID = getLatestMonthID();
-
-    const form = new FormData(event.target);
-    console.log(form.get("value"));
     try {
       let newCurrSpending = 0;
       for (let i=0;i<expenses.length;i++){
@@ -188,27 +188,22 @@ const App = ({ signOut }) => {
       await client.graphql({ query: updateMonthRecord, variables: {
         input: {
           id: monthID,
-          maxSpending: form.get("value")
+          maxSpending: monthData.maxSpending
         }
       }});
     } catch (exc) {
       console.log(exc);
     }
     fetchMonths();
-    event.target.reset();
   }
 
-  function resetLatestMonth(event) {
-    event.preventDefault();
-    console.log("test");
-    const form = new FormData(event.target);
+  function resetLatestMonth(monthData) {
     const data = {
-      maxSpending: form.get("value"),
+      maxSpending: monthData.maxSpending,
       currentSpending: 0,
     }
     deleteMonth(getLatestMonthID());
     createMonth(data);
-    event.target.reset();
   }
 
   async function deleteMonth({ id }) {
@@ -241,6 +236,19 @@ const App = ({ signOut }) => {
     }  
   }
 
+  function monthToggleClicked(event){
+    const btnElement = event.target;
+    const updateMonthElement = document.getElementsByClassName("hero-month");
+    if(updateMonthElement && btnElement.classList.contains("clicked")){
+      btnElement.classList.remove("clicked");
+      updateMonthElement[0].classList.remove("visible")
+    }else if(updateMonthElement && !btnElement.classList.contains("clicked")){
+      btnElement.classList.add("clicked");
+      updateMonthElement[0].classList.add("visible")
+    }
+    
+  }
+
   return (
     <View className="App">
       <View className="view-shelter">
@@ -251,14 +259,22 @@ const App = ({ signOut }) => {
             <Heading level={4} className="editor-header-title">Fund Shelter</Heading>
             <Button id="button-signout" onClick={signOut} className="editor-header-signout">Sign Out</Button>    
         </View>
-        <View className="editor-hero">
+        <Grid 
+          className="editor-hero"
+          templateColumns="1fr 1fr 1fr 1fr"
+          templateRows="1fr 1fr 1fr 1fr"
+        >
           <View className="hero-visualizer">  
             <SplineUnderConstruction recordData={records[0]}/>
           </View>    
+          <Button  
+            className="hero-month-toggle"
+            onClick={monthToggleClicked}
+          >Set</Button>
           <View className="hero-month">
             <UpdateMonthSettings updateFunction={updateLatestMonth} resetFunction={resetLatestMonth}/>
           </View>      
-        </View>        
+        </Grid>        
         <View className="editor-expenses">
           <ExpensesList expenseData={expenses} deleteExpenseFunction={deleteExpense}/> 
           <CreateExpense createExpenseFunction={createExpense}/>

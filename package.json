@@ -50,6 +50,7 @@
     "babel-plugin-syntax-class-properties": "^6.13.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "canvas": "^2.11.2",
-    "identity-obj-proxy": "^3.0.0"
+    "identity-obj-proxy": "^3.0.0",
+    "react-icons": "^5.0.1"
   }
 }

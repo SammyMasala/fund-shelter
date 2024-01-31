@@ -247,6 +247,24 @@ input {
   height: 100%; 
   padding: 23px;
   position: absolute;
+  z-index: -1;
+}
+
+.visible {
+  z-index: 2000;
+}
+
+.hero-month-toggle {
+  border-style: dashed;
+  border-radius: 5px;
+  border-width: 1px;
+  border-color: var(--primary-color);
+}
+
+.hero-month-toggle{
+  grid-area: 1/4/2/5;
+  margin: 10px 10px;
+  padding: 25px;
   z-index: 2000;
 }
 
