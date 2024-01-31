@@ -13,6 +13,7 @@ export const getMonthRecord = /* GraphQL */ `
       currentSpending
       createdAt
       updatedAt
+      owner
       __typename
     }
   }
@@ -30,6 +31,7 @@ export const listMonthRecords = /* GraphQL */ `
         currentSpending
         createdAt
         updatedAt
+        owner
         __typename
       }
       nextToken
@@ -46,6 +48,7 @@ export const getExpense = /* GraphQL */ `
       monthrecordID
       createdAt
       updatedAt
+      owner
       __typename
     }
   }
@@ -64,6 +67,7 @@ export const listExpenses = /* GraphQL */ `
         monthrecordID
         createdAt
         updatedAt
+        owner
         __typename
       }
       nextToken
@@ -93,6 +97,7 @@ export const expensesByMonthrecordID = /* GraphQL */ `
         monthrecordID
         createdAt
         updatedAt
+        owner
         __typename
       }
       nextToken

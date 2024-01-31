@@ -2,5 +2,11 @@
   "AppSyncApiName": "fundshelter",
   "DynamoDBBillingMode": "PAY_PER_REQUEST",
   "DynamoDBEnableServerSideEncryption": false,
-  "AuthModeLastUpdated": "2024-01-20T12:09:33.697Z"
+  "AuthModeLastUpdated": "2024-01-31T15:42:03.589Z",
+  "AuthCognitoUserPoolId": {
+    "Fn::GetAtt": [
+      "authfundshelter580deae1",
+      "Outputs.UserPoolId"
+    ]
+  }
 }

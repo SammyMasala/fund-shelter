@@ -1,11 +1,11 @@
-type MonthRecord @model @auth(rules: [{allow: public}]) {
+type MonthRecord @model @auth(rules: [{allow: public, operations: [read, update, delete]}, {allow: owner}]) {
   id: ID!
   maxSpending: Int!
   Expenses: [Expense] @hasMany(indexName: "byMonthRecord", fields: ["id"])
   currentSpending: Int!
 }
 
-type Expense @model @auth(rules: [{allow: public}]) {
+type Expense @model @auth(rules: [{allow: public, operations: [read, update, delete]}, {allow: owner}]) {
   id: ID!
   value: Float!
   description: String

@@ -16,6 +16,7 @@ export const createMonthRecord = /* GraphQL */ `
       currentSpending
       createdAt
       updatedAt
+      owner
       __typename
     }
   }
@@ -35,6 +36,7 @@ export const updateMonthRecord = /* GraphQL */ `
       currentSpending
       createdAt
       updatedAt
+      owner
       __typename
     }
   }
@@ -54,6 +56,7 @@ export const deleteMonthRecord = /* GraphQL */ `
       currentSpending
       createdAt
       updatedAt
+      owner
       __typename
     }
   }
@@ -70,6 +73,7 @@ export const createExpense = /* GraphQL */ `
       monthrecordID
       createdAt
       updatedAt
+      owner
       __typename
     }
   }
@@ -86,6 +90,7 @@ export const updateExpense = /* GraphQL */ `
       monthrecordID
       createdAt
       updatedAt
+      owner
       __typename
     }
   }
@@ -102,6 +107,7 @@ export const deleteExpense = /* GraphQL */ `
       monthrecordID
       createdAt
       updatedAt
+      owner
       __typename
     }
   }
