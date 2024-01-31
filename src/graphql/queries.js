@@ -37,53 +37,6 @@ export const listMonthRecords = /* GraphQL */ `
     }
   }
 `;
-export const searchMonthRecords = /* GraphQL */ `
-  query SearchMonthRecords(
-    $filter: SearchableMonthRecordFilterInput
-    $sort: [SearchableMonthRecordSortInput]
-    $limit: Int
-    $nextToken: String
-    $from: Int
-    $aggregates: [SearchableMonthRecordAggregationInput]
-  ) {
-    searchMonthRecords(
-      filter: $filter
-      sort: $sort
-      limit: $limit
-      nextToken: $nextToken
-      from: $from
-      aggregates: $aggregates
-    ) {
-      items {
-        id
-        maxSpending
-        currentSpending
-        createdAt
-        updatedAt
-        __typename
-      }
-      nextToken
-      total
-      aggregateItems {
-        name
-        result {
-          ... on SearchableAggregateScalarResult {
-            value
-          }
-          ... on SearchableAggregateBucketResult {
-            buckets {
-              key
-              doc_count
-              __typename
-            }
-          }
-        }
-        __typename
-      }
-      __typename
-    }
-  }
-`;
 export const getExpense = /* GraphQL */ `
   query GetExpense($id: ID!) {
     getExpense(id: $id) {
@@ -143,54 +96,6 @@ export const expensesByMonthrecordID = /* GraphQL */ `
         __typename
       }
       nextToken
-      __typename
-    }
-  }
-`;
-export const searchExpenses = /* GraphQL */ `
-  query SearchExpenses(
-    $filter: SearchableExpenseFilterInput
-    $sort: [SearchableExpenseSortInput]
-    $limit: Int
-    $nextToken: String
-    $from: Int
-    $aggregates: [SearchableExpenseAggregationInput]
-  ) {
-    searchExpenses(
-      filter: $filter
-      sort: $sort
-      limit: $limit
-      nextToken: $nextToken
-      from: $from
-      aggregates: $aggregates
-    ) {
-      items {
-        id
-        value
-        description
-        monthrecordID
-        createdAt
-        updatedAt
-        __typename
-      }
-      nextToken
-      total
-      aggregateItems {
-        name
-        result {
-          ... on SearchableAggregateScalarResult {
-            value
-          }
-          ... on SearchableAggregateBucketResult {
-            buckets {
-              key
-              doc_count
-              __typename
-            }
-          }
-        }
-        __typename
-      }
       __typename
     }
   }
