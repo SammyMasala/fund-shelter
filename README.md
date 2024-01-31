@@ -2,8 +2,7 @@ A fun(d) finance management game. Expand your shelter by not overspending!
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-Trello board: https://trello.com/b/wpLxE7YO/fund-shelter 
-
+# Trello board: https://trello.com/b/wpLxE7YO/fund-shelter 
 
 # Development
 Home Page:
