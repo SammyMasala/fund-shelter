@@ -11,24 +11,31 @@ if (process.env.NODE_ENV !== 'test') {
 }
 
 export default function CreateExpense({createExpenseFunction}){
-    const [hasError, setHasError] = React.useState(true);
     const [isDisabled, setIsDisabled] = React.useState(true);
     function validateInputValue(event){
       const digitRgx = /^[0-9\b]+$/;
       // If input is blank or failed regex, ignore
-      if(!digitRgx.test(event.currentTarget.value)){
-        setHasError(true);
+      if(!event.currentTarget.value || !digitRgx.test(event.currentTarget.value)){
         setIsDisabled(true);
       }else{
-        setHasError(false);
         setIsDisabled(false);
       }
     }
     return (
-        <View as="form" role="form" onSubmit={createExpenseFunction}>
-        <Flex direction="row" justifyContent="center">
+        <Flex 
+          direction="row" 
+          justifyContent="center"
+          as="form" 
+          role="form" 
+          rowStart="4"
+          rowEnd="5"
+          margin="10px"
+          height="50px"
+          onSubmit={createExpenseFunction}
+        >
           <TextField
             className="form-field"
+            margin="0px"
             mode="numeric"
             name="value"
             placeholder="Expense Value"
@@ -36,12 +43,11 @@ export default function CreateExpense({createExpenseFunction}){
             labelHidden
             variation="quiet"
             required
-            hasError = {hasError}
-            errorMessage="Whole Numbers. Keep it simple!"
             onChange = {validateInputValue}
           />
           <TextField
             className="form-field"
+            margin="0px"
             name="description"
             placeholder="Expense Description"
             label="Expense Description"
@@ -53,6 +59,5 @@ export default function CreateExpense({createExpenseFunction}){
             Create Expense
           </Button>
         </Flex>
-      </View>
     );
 }

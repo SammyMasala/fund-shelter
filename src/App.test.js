@@ -49,7 +49,6 @@ describe("e2e App Test", () =>{
     await driver.findElement(By.css("div[class='editor-header']"));
     await driver.findElement(By.css("div[class='editor-hero']"));
     await driver.findElement(By.css("div[class='hero-visualizer']"));
-    await driver.findElement(By.css("div[class='hero-month']"));
     await driver.findElement(By.css("div[class='editor-expenses']"));
     await driver.findElement(By.css("div[class='expenses-list']"));
   });

@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from "react";
-import "./App.css";
 import {
   Button,
   Heading,
   View,
   withAuthenticator,
+  Flex,
+  Grid,
 } from "@aws-amplify/ui-react";
 import { ExpensesList, 
   ShelterList,
   CreateExpense, 
-  DebugCreateMonth, 
+  // DebugCreateMonth, 
   SplineUnderConstruction, 
+  UpdateMonthSettings,
 } from './components-custom/'
 import { expensesByMonthrecordID, listMonthRecords } from "./graphql/queries";
 import {
@@ -23,7 +25,9 @@ import {
 import { generateClient } from "@aws-amplify/api";
 if (process.env.NODE_ENV !== 'test') {
   import ('@aws-amplify/ui-react/styles.css');
+  import ("./App.css");
 }
+
 const client = generateClient();
 
 const App = ({ signOut }) => {
@@ -32,21 +36,24 @@ const App = ({ signOut }) => {
 
   useEffect(() => {
     fetchMonths();
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
     updateMonth(getLatestMonthID());
+    // eslint-disable-next-line
   }, [expenses])
 
   useEffect(() => {
     fetchExpenses(getLatestMonthID());
+    // eslint-disable-next-line
   }, [records])
 
   function checkRenewStatus() {
     if(!records.length){
       return;
     }
-    const cmpDate = (new Date().getFullYear() == new Date(records[0]).getFullYear()) && (new Date().getMonth() == new Date(records[0]).getMonth());   
+    const cmpDate = (new Date().getFullYear() === new Date(records[0]).getFullYear()) && (new Date().getMonth() === new Date(records[0]).getMonth());   
     if(cmpDate){
       renewMonth();
     }    
@@ -91,13 +98,7 @@ const App = ({ signOut }) => {
     fetchExpenses(getLatestMonthID());
   }
 
-  async function createMonth(event) {
-    event.preventDefault();
-    const form = new FormData(event.target);
-    const data = {
-      maxSpending: form.get("value"),
-      currentSpending: 0,
-    }
+  async function createMonth(data) {
     try {
       await client.graphql({
         query: createMonthMutation,
@@ -108,7 +109,6 @@ const App = ({ signOut }) => {
     }    
     fetchMonths();
     fetchExpenses(getLatestMonthID());
-    event.target.reset();
   } 
 
   //DEBUG: View All Expenses
@@ -122,20 +122,6 @@ const App = ({ signOut }) => {
     if(records[0]){
       return records[0].id;
     }
-  }
-  function getMonthState(record){
-    const limit = record.maxSpending;
-    const current = record.currentSpending;
-
-    const state = current/limit*100;
-    //Return state is PLACEHOLDER
-    if (state < 75) {
-      return "Healthy";
-    }else if (state < 100) {
-      return "Critical";
-    } else {
-      return "Exceeded"
-    }      
   }
 
   async function fetchExpenses(id) {
@@ -160,6 +146,7 @@ const App = ({ signOut }) => {
       const recordsFromAPI = apiData.data.listMonthRecords.items;
 
       if(!recordsFromAPI.length){
+        checkRenewStatus()
         return;
       }
       // SORT Records in Descending Order
@@ -182,7 +169,7 @@ const App = ({ signOut }) => {
       await client.graphql({ query: updateMonthRecord, variables: {
         input: {
           id: monthID,
-          currentSpending : newCurrSpending
+          currentSpending: newCurrSpending
         }
       }});
     } catch (exc) {
@@ -191,9 +178,51 @@ const App = ({ signOut }) => {
     fetchMonths();
   }
 
+  async function updateLatestMonth(monthData) {
+    const monthID = getLatestMonthID();
+    try {
+      let newCurrSpending = 0;
+      for (let i=0;i<expenses.length;i++){
+        newCurrSpending = newCurrSpending + expenses[i].value;
+      }
+      await client.graphql({ query: updateMonthRecord, variables: {
+        input: {
+          id: monthID,
+          maxSpending: monthData.maxSpending
+        }
+      }});
+    } catch (exc) {
+      console.log(exc);
+    }
+    fetchMonths();
+  }
+
+  function resetLatestMonth(monthData) {
+    const data = {
+      maxSpending: monthData.maxSpending,
+      currentSpending: 0,
+    }
+    deleteMonth(getLatestMonthID());
+    createMonth(data);
+  }
+
+  async function deleteMonth({ id }) {
+    let newRecords = records.filter((record) => record.id !== id);
+    if (JSON.stringify(records) !== JSON.stringify(newRecords)){
+      setMonths(newRecords);
+    }
+    try {    
+      await client.graphql({
+        query: deleteExpenseMutation,
+        variables: { input: { id } },
+      });
+    } catch (exc) {
+      console.log(exc);
+    }  
+  }
+
   async function deleteExpense({ id }) {
-    let newExpenses = expenses.filter((expense) => expense.id === id);
-    newExpenses = expenses.filter((expense) => expense.id !== id);
+    const newExpenses = expenses.filter((expense) => expense.id !== id);
     if (JSON.stringify(expenses) !== JSON.stringify(newExpenses)){
       setExpenses(newExpenses);
     }
@@ -207,30 +236,119 @@ const App = ({ signOut }) => {
     }  
   }
 
+  function monthToggleClicked(event){
+    const btnElement = event.target;
+    const updateMonthElement = document.getElementsByClassName("hero-month");
+    if(updateMonthElement && btnElement.classList.contains("clicked")){
+      btnElement.classList.remove("clicked");
+      updateMonthElement[0].classList.remove("visible")
+    }else if(updateMonthElement && !btnElement.classList.contains("clicked")){
+      btnElement.classList.add("clicked");
+      updateMonthElement[0].classList.add("visible")
+    }
+    
+  }
+
   return (
-    <View className="App">
-      <View className="view-shelter">
+    <Flex 
+      className="App"
+      direction="row"
+      gap="10px"
+      wrap="nowrap"
+      width="100vw"
+      overflow-x ="hidden" 
+      overflow-y ="auto"
+    >
+      <Flex 
+        className="view-shelter"
+        direction="column"
+        flex="1 0 500px"
+        height="100vh"
+        margin="5px"
+        overflow="auto"
+      >
         <ShelterList recordData={records}/> 
-      </View>
-      <View className="view-editor">
-        <View className="editor-header">
-            <Heading level={4} className="editor-header-title">Fund Shelter</Heading>
-            <Button id="button-signout" onClick={signOut} className="editor-header-signout">Sign Out</Button>    
-        </View>
-        <View className="editor-hero">
-          <View className="hero-visualizer">  
+      </Flex>
+      <Flex 
+        className="view-editor"
+        direction="column"
+        flex="1 0 500px"
+        height="100vh"
+        margin="5px"
+        overflow="auto"
+      >
+        <Grid 
+          className="editor-header"
+          templateRows="1fr"
+          templateColumns="1fr 1fr 1fr 1fr"
+          margin="10px 10px 0px 10px"
+          flex="0 0 30px"
+        >
+            <Heading 
+              className="editor-header-title"
+              level={4} 
+              columnStart="2"
+              columnEnd="4"
+              margin="auto"
+            >
+              Fund Shelter
+            </Heading>
+            <Button 
+              className="editor-header-signout"
+              columnStart="4"
+              columnEnd="5"
+              id="button-signout" 
+              onClick={signOut} 
+            >
+              Sign Out
+            </Button>    
+        </Grid>
+        <Grid 
+          className="editor-hero"
+          templateColumns="1fr 1fr 1fr 1fr"
+          templateRows="1fr 1fr 1fr 1fr"
+          flex="1 1 100px"
+          margin="0px 10px 0px 10px"
+        >
+          <View 
+            className="hero-visualizer"
+            columnStart="1"
+            columnEnd="5"
+            rowStart="1"
+            rowEnd="5"
+          >  
             <SplineUnderConstruction recordData={records[0]}/>
-          </View>
-          <View className="hero-month">
-            <DebugCreateMonth createMonthFunction={createMonth}/>
-          </View>
-        </View>        
-        <View className="editor-expenses">
+          </View>    
+          <Button  
+            className="hero-month-toggle"
+            rowStart="1"
+            rowEnd="2"
+            columnStart="4"
+            columnEnd="5"
+            margin="10px"
+            onClick={monthToggleClicked}
+          >Set</Button>
+          <View 
+            className="hero-month"
+            columnStart="1"
+            columnEnd="5"
+            rowStart="2"
+            rowEnd="5"
+          >           
+            <UpdateMonthSettings updateFunction={updateLatestMonth} resetFunction={resetLatestMonth}/>
+          </View>      
+        </Grid>        
+        <View 
+          className="editor-expenses"
+          direction="column"
+          flex="auto"
+          margin="0px 10px 10px 10px"
+        >
           <ExpensesList expenseData={expenses} deleteExpenseFunction={deleteExpense}/> 
           <CreateExpense createExpenseFunction={createExpense}/>
         </View> 
-      </View>      
-    </View>
+      </Flex>      
+    </Flex>
   );
 };
 
