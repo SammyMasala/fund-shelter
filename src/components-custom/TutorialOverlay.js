@@ -18,14 +18,14 @@ export default function TutorialOverlay(){
                 borderRadius="5px"
                 fontSize="14px"
                 padding="10px"
-            >Step 1. Hello! Welcome to Fund Shelter. Build your shelter by managing your money!</View>
+            >Step 1. Hello! Welcome to Fund Shelter. Build Floors for your shelter by managing your money!</View>
             <View 
                 className="tutorial-step"
                 rowStart="1"
                 columnStart="3"
                 rowEnd="2"
                 columnEnd="4"
-                margin="50px 0px 0px 0px"
+                margin="50px 0px auto 0px"
                 borderStyle="dashed"
                 borderRadius="5px"
                 fontSize="14px"
@@ -42,19 +42,19 @@ export default function TutorialOverlay(){
                 borderRadius="5px"
                 fontSize="14px"
                 padding="10px"
-            >Step 3. Note your expenses</View>
+            >Step 3. Keep track of your expenses</View>
             <View 
                 className="tutorial-step"
                 rowStart="1"
                 columnStart="4"
-                rowEnd="2"
+                rowEnd="3"
                 columnEnd="5"
                 margin="auto 10px auto 10px"
                 borderStyle="dashed"
                 borderRadius="5px"
                 fontSize="14px"
                 padding="10px"
-            >Step 4. Each month's progress is tracked by Shelter's Floors </View>
+            >Step 4. The healthier your wallet, the better the Floor constructed for the month! </View>
             <View 
                 className="tutorial-step"
                 rowStart="1"
@@ -66,7 +66,7 @@ export default function TutorialOverlay(){
                 borderRadius="5px"
                 fontSize="14px"
                 padding="10px"
-            >^ Step 5. Reopen the tutorial any time "?" if you missed anything!</View>
+            >Step 5. Reopen the tutorial any time "?" if you missed anything!</View>
         </>
     );
 }

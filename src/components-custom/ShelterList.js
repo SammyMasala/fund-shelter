@@ -10,13 +10,20 @@ if (process.env.NODE_ENV !== 'test') {
 }
 
 export default function ShelterList({recordData}){
-    if(recordData.length > 1){
+    if(recordData.length > 0){
         recordData = recordData.slice(1);
         return (
+          <>
+            <View 
+              className="shelter-example"
+              margin="25px"
+            >
+              <SplineFloorRecord limit={999} spending={0}/>
+            </View>
             <View 
               className="shelter-list"
               margin="10px"
-            >
+            >              
               {recordData.map((record) => (
                 <View
                   key={record.id}
@@ -27,6 +34,7 @@ export default function ShelterList({recordData}){
                 </View>
               ))}
             </View>
+          </>
         )
     }    
 };
