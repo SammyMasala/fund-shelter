@@ -401,7 +401,6 @@ const App = ({ signOut }) => {
             columnEnd="7"
             rowStart="1"
             rowEnd="7"
-            height="100vh"
             margin="5px"
             overflow="auto"
           >
