@@ -287,6 +287,7 @@ const App = ({ signOut }) => {
       className="App"
       direction="column"
       width="100vw"
+      gap="0px"
       overflow="hidden" 
     >
       <Grid 
@@ -294,15 +295,15 @@ const App = ({ signOut }) => {
         templateRows="1fr"
         templateColumns="1fr 1fr 1fr 1fr"
         margin="auto"
-        width="95vw"
-        flex="auto"
+        width="100vw"
       >
         <Button 
-          className="editor-header-signout"
+          className="editor-header-tutorial"
           columnStart="1"
           columnEnd="2"
           margin="auto"
           id="button-signout" 
+          borderRadius="0"
           onClick={toggleTutorialOverlay} 
         >
           ?
@@ -322,6 +323,8 @@ const App = ({ signOut }) => {
           columnEnd="5"
           margin="auto"
           id="button-signout" 
+          borderRadius="0"
+          borderStyle="hidden"
           onClick={signOut} 
         >
           Sign Out
@@ -340,7 +343,7 @@ const App = ({ signOut }) => {
           templateRows="repeat(6, 1fr)"
           templateColumns="repeat(6, 1fr)"
           height="720px"
-          width="1080px"
+          width="1280px"
         >
           <TutorialOverlay />
           <Flex 

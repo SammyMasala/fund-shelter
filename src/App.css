@@ -1,10 +1,7 @@
 /*------ Global Properties ------*/
 /* Global Fonts */
 :root {
-  font-family: 'Trebuchet MS', sans-serif;
-  --heading-font: "Montserrat", sans-serif;
-  --nav-font: "Lato", sans-serif;
-  --animation-font: "Terminal", Courier, monospace;
+  --default-font: "Terminal", Courier, monospace;
 }
 
 /* Global Colours */
@@ -55,6 +52,7 @@
 
 /* App */
 .App {
+  font-family: var(--default-font);
   background-color: var(--bg-color);
   color: var(--text-color);
   text-align: center;
