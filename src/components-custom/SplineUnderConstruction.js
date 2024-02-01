@@ -11,12 +11,11 @@ export default function SplineUnderConstruction({recordData}) {
         if(!recordData){
             return "No Records Found. New USER? Click '?' for tutorial";
         }
-        const dateNow = new Date();
-        let daysToNextMonth = 0;
-        while (new Date(dateNow.setDate(dateNow.getDate() + daysToNextMonth)).getMonth() === new Date().getMonth()){
-            daysToNextMonth ++;
+        let days = 1;
+        while(new Date(new Date().setDate(days)).getMonth() === new Date().getMonth()){
+            days ++;
         }
-        return "new Floor in: " + daysToNextMonth + " days";
+        return "new Floor in: " + (days - new Date().getDate()) + " days";
     }  
     function printSpendingLimit(){
         if(!recordData){
@@ -66,7 +65,7 @@ export default function SplineUnderConstruction({recordData}) {
             templateRows="1fr 1fr 1fr 1fr"
         >
             <View 
-                className="suc-text-limit"
+                className="suc-text"
                 columnStart="1"
                 columnEnd="3"
                 rowStart="4"
@@ -76,7 +75,7 @@ export default function SplineUnderConstruction({recordData}) {
                 {printSpendingLimit()}
             </View>
             <View 
-                className="suc-text-expiry"
+                className="suc-text"
                 columnStart="2"
                 columnEnd="4"
                 rowStart="1"
@@ -86,7 +85,7 @@ export default function SplineUnderConstruction({recordData}) {
                 {printDaysToRenew()}
             </View>
             <View 
-                className="suc-text-remaining"
+                className="suc-text"
                 columnStart="3"
                 columnEnd="5"
                 rowStart="4"

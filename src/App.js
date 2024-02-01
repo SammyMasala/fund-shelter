@@ -101,6 +101,7 @@ const App = ({ signOut }) => {
   }
 
   async function createMonth(data) {
+    // Flood protection
     if(records.length && (new Date().getMonth() === new Date(records[0].createdAt).getMonth())){
       return;
     }
@@ -329,7 +330,8 @@ const App = ({ signOut }) => {
       <View 
         className="App-content"
         flex="auto"
-        height="720px"
+        height="90vh"
+        width="100vw"
         overflow="auto"
       >
         <Grid 
@@ -337,7 +339,8 @@ const App = ({ signOut }) => {
           direction="row"
           templateRows="repeat(6, 1fr)"
           templateColumns="repeat(6, 1fr)"
-          width="1440px"
+          height="720px"
+          width="1080px"
         >
           <TutorialOverlay />
           <Flex 
@@ -387,8 +390,9 @@ const App = ({ signOut }) => {
             <View 
               className="editor-expenses"
               direction="column"
-              flex="1 0 200px"
+              flex="auto"
               margin="0px 10px 10px 10px"
+              overflow="auto"
             >
               <ExpensesList expenseData={expenses} deleteExpenseFunction={deleteExpense}/> 
               <CreateExpense createExpenseFunction={createExpense}/>
@@ -402,7 +406,6 @@ const App = ({ signOut }) => {
             rowStart="1"
             rowEnd="7"
             margin="5px"
-            overflow="auto"
           >
             <ShelterList recordData={records}/> 
           </Flex>    

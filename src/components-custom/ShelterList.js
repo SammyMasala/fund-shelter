@@ -21,6 +21,7 @@ export default function ShelterList({recordData}){
                 <View
                   key={record.id}
                   className="shelter-list-entry"
+                  margin="25px"
                 >
                   <SplineFloorRecord limit={record.maxSpending} spending={record.currentSpending}/>
                 </View>

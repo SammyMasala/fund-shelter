@@ -170,17 +170,9 @@ input {
   height: 35vh;
 }
 
-.suc-text-limit {
+.suc-text {
   z-index: 1000;
 } 
-
-.suc-text-expiry {
-  z-index: 1000;
-}
-
-.suc-text-remaining {
-  z-index: 1000;
-}
 
 .suc-animation {
   grid-area: 1/1/5/5;

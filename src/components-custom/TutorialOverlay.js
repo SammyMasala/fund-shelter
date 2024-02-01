@@ -13,9 +13,10 @@ export default function TutorialOverlay(){
                 columnStart="2"
                 rowEnd="2"
                 columnEnd="3"
-                width="200px"
-                margin="auto"
+                margin="auto 10px auto 10px"
+                borderStyle="dashed"
                 borderRadius="5px"
+                fontSize="14px"
                 padding="10px"
             >Step 1. Hello! Welcome to Fund Shelter. Build your shelter by managing your money!</View>
             <View 
@@ -24,20 +25,22 @@ export default function TutorialOverlay(){
                 columnStart="3"
                 rowEnd="2"
                 columnEnd="4"
-                width="200px"
                 margin="50px 0px 0px 0px"
+                borderStyle="dashed"
                 borderRadius="5px"
+                fontSize="14px"
                 padding="10px"
-            >Step 2. Click ^THIS BUTTON^ to SET your MONTHLY LIMIT</View>
+            >Step 2. Click ^THIS BUTTON to SET your MONTHLY LIMIT</View>
             <View 
                 className="tutorial-step"
                 rowStart="4"
                 columnStart="1"
                 rowEnd="5"
                 columnEnd="2" 
-                width="200px"
-                margin="auto"
+                margin="auto 10px auto 10px"
+                borderStyle="dashed"
                 borderRadius="5px"
+                fontSize="14px"
                 padding="10px"
             >Step 3. Note your expenses</View>
             <View 
@@ -46,9 +49,10 @@ export default function TutorialOverlay(){
                 columnStart="4"
                 rowEnd="2"
                 columnEnd="5"
-                width="200px"
-                margin="auto"
+                margin="auto 10px auto 10px"
+                borderStyle="dashed"
                 borderRadius="5px"
+                fontSize="14px"
                 padding="10px"
             >Step 4. Each month's progress is tracked by Shelter's Floors </View>
             <View 
@@ -57,9 +61,10 @@ export default function TutorialOverlay(){
                 columnStart="1"
                 rowEnd="2"
                 columnEnd="2"
-                width="200px"
-                margin="auto"
+                margin="0px 10px auto 10px"
+                borderStyle="dashed"
                 borderRadius="5px"
+                fontSize="14px"
                 padding="10px"
             >^ Step 5. Reopen the tutorial any time "?" if you missed anything!</View>
         </>
