@@ -130,6 +130,9 @@ const App = ({ signOut }) => {
   }
 
   async function fetchExpenses(id) {
+    if(!id){
+      return;
+    }
     try {
       const apiData = await client.graphql({ query: expensesByMonthrecordID, variables: {
         monthrecordID: id
@@ -165,6 +168,9 @@ const App = ({ signOut }) => {
   }
 
   async function updateMonth(monthID) {
+    if(!monthID){
+      return;
+    }
     try {
       let newCurrSpending = 0;
       for (let i=0;i<expenses.length;i++){
