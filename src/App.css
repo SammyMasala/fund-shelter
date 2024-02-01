@@ -76,7 +76,6 @@
 }
 
 .App-header {
-  min-height: 100vh;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -113,23 +112,38 @@ input {
 
 /*------ Components ------*/
 
+/* Tutorial Overlay */
+.tutorial-step {
+  background-color: var(--primary-color);
+  opacity: 0;
+}
+
+.tutorial-step .visible {
+  z-index: 2000;
+  opacity: 1;
+}
+
 /* View Editor/Shelter */
-.view-editor, .view-shelter{
+.views {
+  position: relative;
+  z-index: 1000;
+}
+
+.view-editor, .view-shelter {
   box-shadow: 1px 1px 2px var(--bg-color-bold);
 }
 
 .view-editor, .view-shelter {
-  background-color: var(--bg-color-bold);
   border-style: hidden;
   border-color: var(--primary-color);
   border-width: 2px;
 }
 
-/* Editor Header */
-.editor-header {
-  background-color: var(--bg-color);
+.view-editor, .view-shelter {
+  background-color: var(--bg-color-bold);
 }
 
+/* Editor Header */
 .editor-header-signout:hover {
   background-color: var(--secondary-color) !important;
   color:var(--primary-color) !important;
@@ -186,6 +200,7 @@ input {
 
 .visible {
   z-index: 2000;
+  opacity: 1;
 }
 
 .hero-month-toggle {

@@ -4,8 +4,9 @@
 export const onCreateMonthRecord = /* GraphQL */ `
   subscription OnCreateMonthRecord(
     $filter: ModelSubscriptionMonthRecordFilterInput
+    $owner: String
   ) {
-    onCreateMonthRecord(filter: $filter) {
+    onCreateMonthRecord(filter: $filter, owner: $owner) {
       id
       maxSpending
       Expenses {
@@ -15,6 +16,7 @@ export const onCreateMonthRecord = /* GraphQL */ `
       currentSpending
       createdAt
       updatedAt
+      owner
       __typename
     }
   }
@@ -22,8 +24,9 @@ export const onCreateMonthRecord = /* GraphQL */ `
 export const onUpdateMonthRecord = /* GraphQL */ `
   subscription OnUpdateMonthRecord(
     $filter: ModelSubscriptionMonthRecordFilterInput
+    $owner: String
   ) {
-    onUpdateMonthRecord(filter: $filter) {
+    onUpdateMonthRecord(filter: $filter, owner: $owner) {
       id
       maxSpending
       Expenses {
@@ -33,6 +36,7 @@ export const onUpdateMonthRecord = /* GraphQL */ `
       currentSpending
       createdAt
       updatedAt
+      owner
       __typename
     }
   }
@@ -40,8 +44,9 @@ export const onUpdateMonthRecord = /* GraphQL */ `
 export const onDeleteMonthRecord = /* GraphQL */ `
   subscription OnDeleteMonthRecord(
     $filter: ModelSubscriptionMonthRecordFilterInput
+    $owner: String
   ) {
-    onDeleteMonthRecord(filter: $filter) {
+    onDeleteMonthRecord(filter: $filter, owner: $owner) {
       id
       maxSpending
       Expenses {
@@ -51,45 +56,58 @@ export const onDeleteMonthRecord = /* GraphQL */ `
       currentSpending
       createdAt
       updatedAt
+      owner
       __typename
     }
   }
 `;
 export const onCreateExpense = /* GraphQL */ `
-  subscription OnCreateExpense($filter: ModelSubscriptionExpenseFilterInput) {
-    onCreateExpense(filter: $filter) {
+  subscription OnCreateExpense(
+    $filter: ModelSubscriptionExpenseFilterInput
+    $owner: String
+  ) {
+    onCreateExpense(filter: $filter, owner: $owner) {
       id
       value
       description
       monthrecordID
       createdAt
       updatedAt
+      owner
       __typename
     }
   }
 `;
 export const onUpdateExpense = /* GraphQL */ `
-  subscription OnUpdateExpense($filter: ModelSubscriptionExpenseFilterInput) {
-    onUpdateExpense(filter: $filter) {
+  subscription OnUpdateExpense(
+    $filter: ModelSubscriptionExpenseFilterInput
+    $owner: String
+  ) {
+    onUpdateExpense(filter: $filter, owner: $owner) {
       id
       value
       description
       monthrecordID
       createdAt
       updatedAt
+      owner
       __typename
     }
   }
 `;
 export const onDeleteExpense = /* GraphQL */ `
-  subscription OnDeleteExpense($filter: ModelSubscriptionExpenseFilterInput) {
-    onDeleteExpense(filter: $filter) {
+  subscription OnDeleteExpense(
+    $filter: ModelSubscriptionExpenseFilterInput
+    $owner: String
+  ) {
+    onDeleteExpense(filter: $filter, owner: $owner) {
       id
       value
       description
       monthrecordID
       createdAt
       updatedAt
+      owner
       __typename
     }
   }

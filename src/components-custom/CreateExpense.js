@@ -5,10 +5,6 @@ import {
   TextField,
 } from "@aws-amplify/ui-react";
 
-if (process.env.NODE_ENV !== 'test') {
-  import ('@aws-amplify/ui-react/styles.css');
-}
-
 export default function CreateExpense({createExpenseFunction}){
     const [isDisabled, setIsDisabled] = React.useState(true);
     function validateInputValue(event){
