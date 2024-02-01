@@ -329,6 +329,7 @@ const App = ({ signOut }) => {
       <View 
         className="App-content"
         flex="auto"
+        height="720px"
         overflow="auto"
       >
         <Grid 
@@ -336,7 +337,7 @@ const App = ({ signOut }) => {
           direction="row"
           templateRows="repeat(6, 1fr)"
           templateColumns="repeat(6, 1fr)"
-          width="1920px"
+          width="1440px"
         >
           <TutorialOverlay />
           <Flex 
@@ -346,9 +347,7 @@ const App = ({ signOut }) => {
             columnEnd="4"
             rowStart="1"
             rowEnd="7"
-            height="100vh"
             margin="5px"
-            overflow="auto"
           >
             <Grid 
               className="editor-hero"
@@ -380,7 +379,7 @@ const App = ({ signOut }) => {
                 columnStart="1"
                 columnEnd="5"
                 rowStart="2"
-                rowEnd="4"
+                rowEnd="5"
               >           
                 <UpdateMonthSettings updateFunction={updateLatestMonth} resetFunction={resetLatestMonth}/>
               </View>      
