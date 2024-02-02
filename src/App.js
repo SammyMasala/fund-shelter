@@ -296,6 +296,7 @@ const App = ({ signOut }) => {
         templateColumns="1fr 1fr 1fr 1fr"
         margin="auto"
         width="100vw"
+        position="fixed"
       >
         <Button 
           className="editor-header-tutorial"
@@ -333,7 +334,7 @@ const App = ({ signOut }) => {
       <View 
         className="App-content"
         flex="auto"
-        height="90vh"
+        height="100vh"
         width="100vw"
         overflow="auto"
       >
@@ -342,6 +343,7 @@ const App = ({ signOut }) => {
           direction="row"
           templateRows="repeat(6, 1fr)"
           templateColumns="repeat(6, 1fr)"
+          margin="50px 10px 25px 10px"
           height="720px"
           width="1280px"
         >
@@ -360,7 +362,7 @@ const App = ({ signOut }) => {
               templateColumns="1fr 1fr 1fr 1fr"
               templateRows="1fr 1fr 1fr 1fr"
               height="35vh"
-              margin="0px 10px 0px 10px"
+              margin="5px"
             >
               <View 
                 className="hero-visualizer"

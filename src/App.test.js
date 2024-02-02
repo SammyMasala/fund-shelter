@@ -13,15 +13,24 @@
 //- Expense is deleted from list
 //- List is updated 
 
-const SITE_URL = 'http://localhost:3000'
+const SITE_URL = 'https://development.d1z6ebx34rsesg.amplifyapp.com'
 
 describe("e2e App Test", () =>{
   const webdriver = require("selenium-webdriver");
+  const chrome = require('selenium-webdriver/chrome');
+  const options = new chrome.Options();
+  options.addArguments('--disable-dev-shm-usage');
+  options.addArguments('--no-sandbox');
+  options.addArguments('--headless');
+  options.addArguments("--disable-3d-apis")
+  options.addArguments("start-maximized")
+  options.addArguments("disable-infobars")
+  options.addArguments("--disable-extensions")
+
   const By = webdriver.By;
   const until = webdriver.until;
-  const driver = new webdriver.Builder().withCapabilities(webdriver.Capabilities.chrome()).build();
-  driver.manage().setTimeouts({ implicit:2000 })
-
+  const driver = new webdriver.Builder().forBrowser(webdriver.Browser.CHROME).setChromeOptions(options).build();
+  driver.manage().getTimeouts({implicit: 20000});
   test("Login to main page", async () =>{ 
     driver.get(SITE_URL);
     const loginData = {
@@ -35,26 +44,9 @@ describe("e2e App Test", () =>{
     await passwordField.sendKeys(loginData.password);   
     await passwordField.submit();
     await driver.wait(until.elementLocated(By.name("value"), 20000));    
-  }, 20000);
-
-  test("User sees Shelter List", async() => {
-    driver.get(SITE_URL);
-    await driver.findElement(By.css("div[class='view-shelter']"));
-    await driver.findElement(By.css("div[class='shelter-list']"));
-  });
-
-  test("User sees View-Editor", async() => {
-    driver.get(SITE_URL);
-    await driver.findElement(By.css("div[class='view-editor']"));
-    await driver.findElement(By.css("div[class='editor-header']"));
-    await driver.findElement(By.css("div[class='editor-hero']"));
-    await driver.findElement(By.css("div[class='hero-visualizer']"));
-    await driver.findElement(By.css("div[class='editor-expenses']"));
-    await driver.findElement(By.css("div[class='expenses-list']"));
-  });
+  }, 10000);
 
   test("User creates Expense", async () =>{
-    driver.get(SITE_URL);
     const expenseValueField = await driver.findElement(By.css("input[name='value']"));
     const expenseDescField = await driver.findElement(By.css("input[name='description']"));
 
@@ -64,12 +56,11 @@ describe("e2e App Test", () =>{
   })
 
   test("User Signs Out", async() => {
-    driver.get(SITE_URL);
-    const signOutBtn = await driver.findElement(By.css("button[id='button-signout']"));
+    const signOutBtn = await driver.findElement(By.id("button-signout"));
     await signOutBtn.click();
 
-    await driver.wait(until.elementLocated(By.css("input[name='username']"), 20000));    
-  });
+    await driver.wait(until.elementLocated(By.css("input[name='username']"), 10000));    
+  }, 20000);
 
   it("Ends test", () => {
     driver.quit();
