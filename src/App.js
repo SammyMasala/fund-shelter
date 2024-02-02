@@ -300,18 +300,17 @@ const App = ({ signOut }) => {
         position="fixed"
       >
         <Button 
-          className="editor-header-tutorial"
+          className="header-tutorial"
           columnStart="1"
           columnEnd="2"
           margin="auto"
-          id="button-signout" 
           borderRadius="0"
           onClick={toggleTutorialOverlay} 
         >
           ?
         </Button>  
         <Heading 
-          className="editor-header-title"
+          className="header-title"
           level={4} 
           columnStart="2"
           columnEnd="4"
@@ -320,11 +319,10 @@ const App = ({ signOut }) => {
           Fund Shelter
         </Heading>
         <Button 
-          className="editor-header-signout"
+          className="header-signout"
           columnStart="4"
           columnEnd="5"
           margin="auto"
-          id="button-signout" 
           borderRadius="0"
           borderStyle="hidden"
           onClick={signOut} 
