@@ -16,7 +16,9 @@ export default function ShelterList({recordData}){
           <>
             <View 
               className="shelter-example"
-              margin="25px"
+              borderStyle="dashed"
+              borderColor="var(--primary-color)"
+              margin="25px 50px 25px 50px"
             >
               <SplineFloorRecord limit={999} spending={0}/>
             </View>
@@ -28,7 +30,9 @@ export default function ShelterList({recordData}){
                 <View
                   key={record.id}
                   className="shelter-list-entry"
-                  margin="25px"
+                  borderStyle="dashed"
+                  borderColor="var(--primary-color)"
+                  margin="25px 50px 25px 50px"
                 >
                   <SplineFloorRecord limit={record.maxSpending} spending={record.currentSpending}/>
                 </View>

@@ -57,10 +57,6 @@
   color: var(--text-color);
   text-align: center;
 }
-/* 
-.App {
-  text-shadow: 1px 1px 3px var(--bg-color-bold);
-} */
 
 .App-logo {
   height: 40vmin;
@@ -74,13 +70,10 @@
 }
 
 .App-header {
-  background-color: var(--bg-color-bold);
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-  z-index: 2000;
+    z-index: 2000;
 }
 
 .App-link {
@@ -97,17 +90,27 @@
 }
 
 /* Amplify Buttons */
-.amplify-button {
-  color: var(--default-color-text); 
-}
-
-/* Amplify Heading */
 .amplify-heading {
-  color: var(--default-color-text) !important;
+  color: var(--text-color);
 }
 
-input {
-  color: var(--default-color-text) !important;
+.amplify-button {
+  border-radius: 0px;
+}
+
+.amplify-button {
+  color: var(--default-color-text);
+  background-color: var(--primary-color); 
+}
+
+.amplify-button--disabled {
+  color:var(--text-color);
+  background-color: var(--secondary-color); 
+  pointer-events: none;
+}
+
+.amplify-button:hover {
+  background-color: var(--secondary-color);
 }
 
 /*------ Components ------*/
@@ -133,43 +136,7 @@ input {
   box-shadow: 1px 1px 2px var(--bg-color-bold);
 }
 
-.view-editor, .view-shelter {
-  border-style: hidden;
-  border-color: var(--primary-color);
-  border-width: 2px;
-}
-
-.view-editor, .view-shelter {
-  background-color: var(--bg-color-bold);
-}
-
-/* Editor Header */
-.editor-header-signout:hover {
-  background-color: var(--secondary-color) !important;
-  color:var(--primary-color) !important;
-}
-
-.editor-header-signout {
-  background-color: var(--primary-color) !important;
-  color: var(--default-color-text) !important;
-}
-
 /* Editor Hero */
-.editor-hero {
-  background-color: var(--bg-color);
-}
-
-.suc-container {
-  border-style: dashed;
-  border-width: 1px;
-  border-color: var(--primary-color);
-}
-
-.suc-container {
-  font-family: var(--animation-font);
-  height: 35vh;
-}
-
 .suc-text {
   z-index: 1000;
 } 
@@ -179,14 +146,6 @@ input {
 }
 
 .hero-month {
-  border-style: dashed;
-  border-radius: 5px;
-  border-width: 1px;
-  border-color: var(--primary-color);
-}
-
-.hero-month {
-  background-color: var(--bg-color);
   z-index: -1;
 }
 
@@ -195,39 +154,8 @@ input {
   opacity: 1;
 }
 
-.hero-month-toggle {
-  border-style: dashed;
-  border-radius: 5px;
-  border-width: 1px;
-  border-color: var(--primary-color);
-}
-
 .hero-month-toggle{
+  background-color: rgba(0,0,0,0);
   z-index: 2000;
 }
 
-/* Editor Expenses */
-.editor-expenses {
-  background-color: var(--bg-color);
-} 
-
-.expenses-list-entry {
-  background-color: var(--bg-color-bold) !important;
-}
-
-.entry-text {
-  flex: auto;
-}
-
-.entry-text-value, .entry-text-description {
-  color: var(--text-color) !important;
-}
-
-/* Shelter List */
-.shelter-list-entry {
-  background-color: var(--bg-color-bold);
-}
-
-.placeholder-shelter-value {
-  color: var(--text-color) !important;
-}

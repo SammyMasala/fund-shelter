@@ -294,6 +294,7 @@ const App = ({ signOut }) => {
         className="App-header"
         templateRows="1fr"
         templateColumns="1fr 1fr 1fr 1fr"
+        backgroundColor="var(--bg-color-bold)"
         margin="auto"
         width="100vw"
         position="fixed"
@@ -356,48 +357,52 @@ const App = ({ signOut }) => {
             rowStart="1"
             rowEnd="7"
             margin="5px"
+            backgroundColor="var(--bg-color-bold)"
           >
             <Grid 
               className="editor-hero"
               templateColumns="1fr 1fr 1fr 1fr"
               templateRows="1fr 1fr 1fr 1fr"
-              height="35vh"
-              margin="5px"
-            >
-              <View 
-                className="hero-visualizer"
-                columnStart="1"
-                columnEnd="5"
-                rowStart="1"
-                rowEnd="5"
-              >  
-                <SplineUnderConstruction recordData={records[0]}/>
-              </View>    
+              height="225px"
+              margin="10px"
+              borderColor="var(--primary-color)"
+              borderStyle="dashed"
+            >              
+              <SplineUnderConstruction recordData={records[0]}/>
               <Button  
                 className="hero-month-toggle"
                 rowStart="1"
                 rowEnd="2"
                 columnStart="4"
                 columnEnd="5"
+                borderColor="var(--primary-color)"
+                borderStyle="dashed"
                 margin="10px"
                 onClick={monthToggleClicked}
               >Set</Button>
-              <View 
+              <Flex 
+                direction="column"
                 className="hero-month"
                 columnStart="1"
                 columnEnd="5"
                 rowStart="2"
-                rowEnd="5"
+                rowEnd="4"
+                backgroundColor="var(--bg-color)"
+                margin="0px 5px 0px 5px"
+                opacity=".9"
+                borderColor="var(--primary-color)"
+                borderStyle="dashed"
               >           
                 <UpdateMonthSettings updateFunction={updateLatestMonth} resetFunction={resetLatestMonth}/>
-              </View>      
+              </Flex>      
             </Grid>        
             <View 
               className="editor-expenses"
               direction="column"
-              flex="auto"
-              margin="0px 10px 10px 10px"
+              flex="1 0 400px"
+              margin="10px"
               overflow="auto"
+              backgroundColor="var(--bg-color)"
             >
               <ExpensesList expenseData={expenses} deleteExpenseFunction={deleteExpense}/> 
               <CreateExpense createExpenseFunction={createExpense}/>
@@ -410,6 +415,7 @@ const App = ({ signOut }) => {
             columnEnd="7"
             rowStart="1"
             rowEnd="7"
+            backgroundColor="var(--bg-color-bold)"
             margin="5px"
           >
             <ShelterList recordData={records}/> 

@@ -41,15 +41,17 @@ export default function UpdateMonthSettings({updateFunction, resetFunction}){
           as="form" 
           role="form"
           templateRows="1fr 1fr"
-          templateColumns="1fr 1fr"
+          templateColumns="1fr 1fr 1fr 1fr 1fr"
           onSubmit={submitFunction}
         >
           <TextField
             columnStart="1"
-            columnEnd="3"
+            columnEnd="6"
             rowStart="1"
             rowEnd="2"
-            padding="0px 15px 0px 15px"
+            padding="0px 25px 0px 25px"
+            gap="0px"
+            size="small"
             mode="numeric"
             name="value"
             placeholder="Spending Limit"
@@ -71,11 +73,11 @@ export default function UpdateMonthSettings({updateFunction, resetFunction}){
             size="large"
           /> */}
           <Button 
-            columnStart="1"
-            columnEnd="3"
+            columnStart="3"
+            columnEnd="4"
+            margin="auto"            
             rowStart="2"
             rowEnd="3"
-            margin="20px"
             type="submit" 
             variation="primary" 
             disabled={isDisabled}

@@ -22,6 +22,7 @@ export default function ExpensesList({expenseData, deleteExpenseFunction}){
             {expenseData.map((expense) => (
                 <Flex
                     className="expenses-list-entry"
+                    backgroundColor="var(--bg-color-bold)"
                     direction="row"
                     margin="5px"
                     fontSize="14px"
@@ -31,13 +32,18 @@ export default function ExpensesList({expenseData, deleteExpenseFunction}){
                         className="entry-text"
                         textAlign="justify"
                         margin="5px 15px 5px 15px"
+                        flex="auto"
                     >
-                        <Text className="entry-text-value">
+                        <Text 
+                            className="entry-text-value"
+                            color="var(--text-color)"
+                        >
                         {expense.value}
                         </Text>
                         <Text 
                             className="entry-text-description"
                             fontStyle="italic"
+                            color="var(--text-color)"
                         >
                         {expense.description}
                         </Text>
