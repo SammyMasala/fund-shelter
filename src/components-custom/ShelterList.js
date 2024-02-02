@@ -1,6 +1,8 @@
 import React from "react";
 import {
   View,
+  Heading,
+  Grid,
 //   Text,
 } from "@aws-amplify/ui-react";
 import SplineFloorRecord from "./SplineFloorRecord";
@@ -15,16 +17,9 @@ export default function ShelterList({recordData}){
         return (
           <>
             <View 
-              className="shelter-example"
-              borderStyle="dashed"
-              borderColor="var(--primary-color)"
-              margin="25px 50px 25px 50px"
-            >
-              <SplineFloorRecord limit={999} spending={0}/>
-            </View>
-            <View 
               className="shelter-list"
-              margin="10px"
+              flex="auto 100%"
+              overflow="auto"
             >              
               {recordData.map((record) => (
                 <View
@@ -37,6 +32,24 @@ export default function ShelterList({recordData}){
                   <SplineFloorRecord limit={record.maxSpending} spending={record.currentSpending}/>
                 </View>
               ))}
+              <View 
+                className="shelter-example"
+                
+                borderStyle="dashed"
+                borderColor="var(--primary-color)"
+                margin="25px 50px 25px 50px"
+              >
+                <Heading 
+                  className="header-title"
+                  level={4} 
+                  columnStart="2"
+                  columnEnd="4"
+                  margin="auto"
+                >
+                  EXAMPLE - HEALTHY               
+                </Heading>
+                <SplineFloorRecord limit={999} spending={0}/>
+              </View>
             </View>
           </>
         )
