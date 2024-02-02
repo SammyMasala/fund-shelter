@@ -90,6 +90,11 @@
 }
 
 /* Amplify Buttons */
+.amplify-tabs__panel, .amplify-tabs__item{
+  background-color: var(--bg-color);
+  color:var(--text-color);
+}
+
 .amplify-heading, .amplify-input {
   color: var(--text-color);
 }
