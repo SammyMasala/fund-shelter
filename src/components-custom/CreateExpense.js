@@ -17,42 +17,42 @@ export default function CreateExpense({createExpenseFunction}){
       }
     }
     return (
-        <Flex 
-          direction="row" 
-          justifyContent="center"
-          as="form" 
-          role="form" 
-          rowStart="4"
-          rowEnd="5"
-          margin="10px"
-          height="50px"
-          onSubmit={createExpenseFunction}
-        >
-          <TextField
-            className="form-field"
-            margin="0px"
-            mode="numeric"
-            name="value"
-            placeholder="Expense Value"
-            label="Expense Value"
-            labelHidden
-            variation="quiet"
-            required
-            onChange = {validateInputValue}
-          />
-          <TextField
-            className="form-field"
-            margin="0px"
-            name="description"
-            placeholder="Expense Description"
-            label="Expense Description"
-            labelHidden
-            variation="quiet"
-            required
-          />
-          <Button type="submit" id="expense-submit-button" variation="primary" disabled={isDisabled}>
-            Create Expense
-          </Button>
-        </Flex>
+      <Flex 
+        direction="row" 
+        justifyContent="center"
+        as="form" 
+        role="form" 
+        rowStart="4"
+        rowEnd="5"
+        margin="10px"
+        height="50px"
+        onSubmit={createExpenseFunction}
+      >
+        <TextField
+          className="form-field"
+          margin="0px"
+          mode="numeric"
+          name="value"
+          placeholder="Expense Value"
+          label="Expense Value"
+          labelHidden
+          variation="quiet"
+          required
+          onChange = {validateInputValue}
+        />
+        <TextField
+          className="form-field"
+          margin="0px"
+          name="description"
+          placeholder="Expense Description"
+          label="Expense Description"
+          labelHidden
+          variation="quiet"
+          required
+        />
+        <Button type="submit" id="expense-submit-button" variation="primary" disabled={isDisabled}>
+          Create Expense
+        </Button>
+      </Flex>
     );
 }
